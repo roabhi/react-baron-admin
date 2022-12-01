@@ -2,4 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;600;700&family=Public+Sans:wght@500;600;700&family=Work+Sans:wght@400;600&display=swap');
+
 @import url(./css/reset.css);
+
+/* :root {
+  --dark: #2a3042;
+  --white: #ffffff;
+} */
+
+html,
+body {
+  /* font: normal normal normal 100%/1.5 'Poppins', 'Public Sans', 'Work Sans',
+    Helvetica Neue, Helvetica, Arial, sans-serif; */
+  background: #f0f0f0 none;
+}
+
+aside {
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translateX(-100%);
+}
+
+nav {
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translateX(0);
+}
+
+.holder.show-sidebar aside {
+  transform: translateX(0);
+}
+
+.holder.show-sidebar nav {
+  transform: translateX(17.938rem);
+}
+
+.card {
+  background: #fff none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.12);
+}
