@@ -15,7 +15,9 @@ html,
 body {
   /* font: normal normal normal 100%/1.5 'Poppins', 'Public Sans', 'Work Sans',
     Helvetica Neue, Helvetica, Arial, sans-serif; */
+  width: 100%;
   background: #f0f0f0 none;
+  overflow-x: hidden;
 }
 
 aside {
@@ -24,7 +26,13 @@ aside {
 }
 
 nav {
-  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.65s cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translateX(0);
+}
+
+.holder-page {
+  /* overflow-x: hidden; */
+  transition: transform 0.75s cubic-bezier(0.19, 1, 0.22, 1);
   transform: translateX(0);
 }
 
@@ -32,7 +40,8 @@ nav {
   transform: translateX(0);
 }
 
-.holder.show-sidebar nav {
+.holder.show-sidebar nav,
+.holder.show-sidebar .holder-page {
   transform: translateX(17.938rem);
 }
 
