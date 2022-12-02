@@ -7,8 +7,6 @@ import CompanyItem from '../components/CompanyItem'
 const Companies = () => {
   return (
     <>
-      <Header />
-      <Sidebar />
       <div className="holder-page">
         <header className="max-w-[85.750rem] w-10/12 xl:w-full flex items-center justify-between mx-auto mt-[6rem]">
           <div>
@@ -71,6 +69,8 @@ const Companies = () => {
           <Pagination />
         </main>
       </div>
+      <Header />
+      <Sidebar />
     </>
   )
 }
