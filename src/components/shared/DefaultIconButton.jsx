@@ -63,7 +63,7 @@ const DefaultIconButton = ({ text, iconType }) => {
 
 DefaultIconButton.defaultProps = {
   text: 'OK',
-  iconType: 'plus',
+  iconType: '',
 }
 
 DefaultIconButton.propTypes = {

@@ -13,6 +13,7 @@ import Companies from './pages/Companies'
 import Company from './pages/Company'
 import CreateCompany from './pages/CreateCompany'
 import EditCompany from './pages/EditCompany'
+import Modal from './components/shared/Modal'
 
 /**
  * * CONTEXT
@@ -21,6 +22,14 @@ import EditCompany from './pages/EditCompany'
 import { APIProvider } from './context/APIContext'
 
 const App = () => {
+  /**
+   * ! Delete this function. Testing passing funcs as props
+   */
+
+  // const actionFunc = (e) => {
+  //   console.log('clicked on modal')
+  // }
+
   return (
     <>
       <APIProvider>
@@ -39,6 +48,15 @@ const App = () => {
           </div>
         </Router>
       </APIProvider>
+      {/**
+       * ! Modal show go into its own Context!
+       */}
+      {/* <Modal
+        type="success"
+        title="Header"
+        text="Lorem Ipsum dolor sit amet consecuteur lorem ipsum"
+        action={actionFunc}
+      /> */}
       <div id="grid"></div>
     </>
   )
