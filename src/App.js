@@ -13,7 +13,7 @@ import Companies from './pages/Companies'
 import Company from './pages/Company'
 import CreateCompany from './pages/CreateCompany'
 import EditCompany from './pages/EditCompany'
-import Modal from './components/shared/Modal'
+// import Modal from './components/shared/Modal'
 
 /**
  * * CONTEXT

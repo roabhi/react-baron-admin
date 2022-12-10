@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types'
 
-const DefaultIconButton = ({ text, iconType }) => {
+const DefaultIconButton = ({ text, iconType, action }) => {
   return (
-    <div className="flex items-center justify-between bg-[#08A18F] rounded-[0.500rem] py-2.5 px-4 hover:bg-[#00D183] active:bg-[#08A18F] active:outline-none active:ring-2 ring-inset ring-[#2A3042] cursor-pointer">
+    <div
+      className="flex items-center justify-between bg-[#08A18F] rounded-[0.500rem] py-2.5 px-4 hover:bg-[#00D183] active:bg-[#08A18F] active:outline-none active:ring-2 ring-inset ring-[#2A3042] cursor-pointer"
+      onClick={action}
+    >
       {iconType === 'plus' && (
         <span className="inline-block w-[1.125rem] h-[1.125rem] mr-[0.5rem] pointer-events-none">
           <svg
@@ -64,11 +67,13 @@ const DefaultIconButton = ({ text, iconType }) => {
 DefaultIconButton.defaultProps = {
   text: 'OK',
   iconType: '',
+  action: () => {},
 }
 
 DefaultIconButton.propTypes = {
   text: PropTypes.string,
   iconType: PropTypes.string,
+  action: PropTypes.func,
 }
 
 export default DefaultIconButton

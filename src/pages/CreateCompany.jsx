@@ -1,8 +1,15 @@
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import DefaultIconButton from '../components/shared/DefaultIconButton'
+import { useNavigate } from 'react-router-dom'
 
 const CreateCompany = () => {
+  const navigate = useNavigate()
+
+  const goBack = () => {
+    navigate('/companies')
+  }
+
   return (
     <>
       <div className="holder-page">
@@ -13,7 +20,11 @@ const CreateCompany = () => {
             </h1>
           </div>
           <div>
-            <DefaultIconButton text="Volver Atr&aacute;s" iconType="back" />
+            <DefaultIconButton
+              text="Volver Atr&aacute;s"
+              iconType="back"
+              action={goBack}
+            />
           </div>
         </header>
         <div className="border-b h-[2rem] w-full"></div>

@@ -3,8 +3,15 @@ import Sidebar from '../components/Sidebar'
 import Pagination from '../components/Pagination'
 import DefaultIconButton from '../components/shared/DefaultIconButton'
 import CompanyItem from '../components/CompanyItem'
+import { useNavigate } from 'react-router-dom'
 
 const Companies = () => {
+  const navigate = useNavigate()
+
+  const goToCreateCompany = (e) => {
+    navigate('/create')
+  }
+
   return (
     <>
       <div className="holder-page">
@@ -18,6 +25,7 @@ const Companies = () => {
             <DefaultIconButton
               text="Nueva Compa&ntilde;&iacute;a"
               iconType="plus"
+              action={goToCreateCompany}
             />
           </div>
         </header>

@@ -3,8 +3,16 @@ import Sidebar from '../components/Sidebar'
 import Pagination from '../components/Pagination'
 import Insurance from '../components/Insurance'
 import DefaultIconButton from '../components/shared/DefaultIconButton'
+// import { useNavigate } from 'react-router-dom'
 
 const Company = () => {
+  // const navigate = useNavigate()
+
+  const download = () => {
+    //code to download archive from db
+    console.log('download archive')
+  }
+
   return (
     <>
       <div className="holder-page">
@@ -30,7 +38,11 @@ const Company = () => {
             </h1>
           </div>
           <div>
-            <DefaultIconButton text="Descargar Fichero" iconType="download" />
+            <DefaultIconButton
+              text="Descargar Fichero"
+              iconType="download"
+              action={download}
+            />
           </div>
         </header>
         <main className="card mt-8 max-w-[85.750rem] w-10/12 xl:w-full mx-auto mb-[8.125rem]">
