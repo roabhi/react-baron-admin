@@ -1,5 +1,3 @@
-import DefaultActionButton from './shared/DefaultActionButton'
-
 const CompanyItem = () => {
   return (
     <>
@@ -26,9 +24,24 @@ const CompanyItem = () => {
         </td>
         <td className="font-['Work_Sans'] font-[600] text-[#2A3042] text-[0.813rem] px-6 py-4 whitespace-nowrap">
           <div className="w-10/12 flex items-center justify-between">
-            <DefaultActionButton text="Abrir" />
-            <DefaultActionButton text="Editar" />
-            <DefaultActionButton text="Eliminar" />
+            <button
+              className="border-2 border-[#2A3042] rounded-[0.500rem] py-1 px-10 hover:border-[#7C8691] hover:text-[#7C8691] active:border-[#2A3042] focus:outline-none"
+              onClick={() => console.log('abrir compañia, necesita id')}
+            >
+              Abrir
+            </button>
+            <button
+              className="border-2 border-[#2A3042] rounded-[0.500rem] py-1 px-10 hover:border-[#7C8691] hover:text-[#7C8691] active:border-[#2A3042] focus:outline-none"
+              onClick={() => console.log('editar compañia, necesita id')}
+            >
+              Editar
+            </button>
+            <button
+              className="border-2 border-[#2A3042] rounded-[0.500rem] py-1 px-10 hover:border-[#7C8691] hover:text-[#7C8691] active:border-[#2A3042] focus:outline-none"
+              onClick={() => console.log('borrar compañia, necesita id')}
+            >
+              Eliminar
+            </button>
           </div>
         </td>
       </tr>
