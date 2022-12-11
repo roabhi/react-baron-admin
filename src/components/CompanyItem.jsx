@@ -1,4 +1,60 @@
+import { useContext } from 'react'
+import ModalContext from '../context/ModalContext'
+
+/**
+ * TODO This companyItem component show have an id or reference to perform actions on DB
+ */
+
 const CompanyItem = () => {
+  const { showModal, hideModal, paintModalContent } = useContext(ModalContext)
+
+  /**
+   * TODO This hideCurrentModal function is reused just to hide the modal for now
+   * TODO Once we have final actions from CRUD each Modal should be passed and
+   * TODO an action to perform DB operations or whatever
+   */
+
+  const hideCurrentModal = () => {
+    console.log('clicked OK on delete company from modal')
+    hideModal()
+  }
+
+  const selectAction = (e) => {
+    // ? Test
+    e.target.id.toString().includes('confirm')
+      ? console.log('clicked on confirm')
+      : console.log('clicked on cancel')
+
+    // ? Hide anyways
+    hideCurrentModal()
+  }
+
+  const onEditCompanyClick = () => {
+    showModal()
+    paintModalContent(
+      'info', //type
+      'info', //title of modal
+      'You are about to edit this company', //text of modal
+      hideCurrentModal // function to modal
+    )
+  }
+
+  const onDeleteCompanyClick = () => {
+    showModal()
+    paintModalContent(
+      'alert', //type
+      'Alert', //title of modal
+      'Are you sure you want to delete this company', //text of modal
+      /**
+       * ? We are looking only at double action behaviour on modals
+       * ? based on the type 'alert' which has attached the action to the
+       * ? containingg div for both buttons instead of a single button
+       * ? we use button-confirm and button-cancel id to select the action to do
+       */
+      selectAction // function to modal
+    )
+  }
+
   return (
     <>
       <tr className="border-b">
@@ -32,13 +88,13 @@ const CompanyItem = () => {
             </button>
             <button
               className="border-2 border-[#2A3042] rounded-[0.500rem] py-1 px-10 hover:border-[#7C8691] hover:text-[#7C8691] active:border-[#2A3042] focus:outline-none"
-              onClick={() => console.log('editar compañia, necesita id')}
+              onClick={onEditCompanyClick}
             >
               Editar
             </button>
             <button
               className="border-2 border-[#2A3042] rounded-[0.500rem] py-1 px-10 hover:border-[#7C8691] hover:text-[#7C8691] active:border-[#2A3042] focus:outline-none"
-              onClick={() => console.log('borrar compañia, necesita id')}
+              onClick={onDeleteCompanyClick}
             >
               Eliminar
             </button>
