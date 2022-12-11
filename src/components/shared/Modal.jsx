@@ -118,15 +118,36 @@ const Modal = ({ type, title, text, action }) => {
             <h1 className="font-['Poppins'] font-[700] text-[1.500rem] text-[#7C8691] text-center mt-[1.875rem]">
               {title}
             </h1>
-            <p className="font-['Public_Sans'] font-[600] text-[0.875rem] text-[#DFDFDF] mt-[1.875rem] mx-auto text-center w-[16rem]">
+            <p className="font-['Public_Sans'] font-[600] text-[0.875rem] text-[#7C8691] mt-[1.875rem] mx-auto text-center w-[16rem]">
               {text}
             </p>
-            <button
-              className="mt-[2.188rem] mb-[3.063rem] bg-[#2A3042] text-white font-['Work_Sans'] font-[600] text-[0.875rem] rounded-[0.500rem] py-2.5 px-3 w-[14rem] mx-auto cursor-pointer hover:bg-[#7C8691] active:bg-[#7C8691] focus:outline-none focus:ring-2 ring-inset ring-[#2A3042]"
-              onClick={action}
-            >
-              Ok
-            </button>
+            {type === 'alert' && (
+              <div
+                className="flex items-center justify-between"
+                onClick={action}
+              >
+                <button
+                  id="button-confirm"
+                  className="mt-[2.188rem] mb-[3.063rem] bg-[#2A3042] text-white font-['Work_Sans'] font-[600] text-[0.875rem] rounded-[0.500rem] py-2.5 px-3 w-[7rem] mx-auto cursor-pointer hover:bg-[#7C8691] active:bg-[#7C8691] focus:outline-none focus:ring-2 ring-inset ring-[#2A3042]"
+                >
+                  Ok
+                </button>
+                <button
+                  id="button-cancel"
+                  className="mt-[2.188rem] mb-[3.063rem] bg-[#2A3042] text-white font-['Work_Sans'] font-[600] text-[0.875rem] rounded-[0.500rem] py-2.5 px-3 w-[7rem] mx-auto cursor-pointer hover:bg-[#7C8691] active:bg-[#7C8691] focus:outline-none focus:ring-2 ring-inset ring-[#2A3042]"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+            {type !== 'alert' && (
+              <button
+                className="mt-[2.188rem] mb-[3.063rem] bg-[#2A3042] text-white font-['Work_Sans'] font-[600] text-[0.875rem] rounded-[0.500rem] py-2.5 px-3 w-[14rem] mx-auto cursor-pointer hover:bg-[#7C8691] active:bg-[#7C8691] focus:outline-none focus:ring-2 ring-inset ring-[#2A3042]"
+                onClick={action}
+              >
+                Ok
+              </button>
+            )}
           </div>
         </div>
       </div>
