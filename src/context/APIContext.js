@@ -1,39 +1,47 @@
-import { createContext, useState, useEffect } from 'react'
+/**
+ * * API endpoint -> https://murmuring-citadel-67317.herokuapp.com/
+ * GET companies -> /companies
+ * GET Company -> /company/:id/insurances
+ * POST Company -> /companies/ @params name, tsv file, imagen (aun no)
+ * PATCH Company -> /companies/:id @params name, tsv file, imagen (aun no)
+ */
+
+import { createContext, useState } from 'react'
 
 const APIContext = createContext()
 
 export const APIProvider = ({ children }) => {
   const [loading, setLoading] = useState(true),
-    [feed, setFeed] = useState([])
-
-  // useEffect(() => {
-  //   fetchFeed()
-  // }, [])
+    [companyInsurances, setCompanyInsurances] = useState([]),
+    [companies, setCompanies] = useState([])
 
   const fetchAllCompanies = async () => {
     const response = await fetch(
-      `https://jsonplaceholder.typicode.com/albums/1/photos`
+      `https://murmuring-citadel-67317.herokuapp.com/companies`
     )
-
     const data = await response.json()
+    return data
+  }
 
-    console.log(data)
-    setFeed(data)
-    setLoading(false)
+  const fetchCompanyInsurances = async (company_id) => {
+    const response = await fetch(
+      `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}/insurances`
+    )
+    const data = await response.json()
+    return data
   }
 
   return (
     <APIContext.Provider
       value={{
-        // feed: feed, // ?This is a State
-        // loading: loading, //? This is a state
-        // feedbackEdit: feedbackEdit, // ? This is the STATE editing Feedback
-        // isLoading: isLoading, // ? This is a State
-        // deleteFeedback: deleteFeedback, // ? This is a function
-        // addFeedback: addFeedback, // ? This is a function
-        // editFeedback: editFeedback, // ? This is the FUNCTION editing Feedback
-        // updateFeedback: updateFeedback, // ? This is a function
+        companies: companies, // ?This is a State
+        setCompanies: setCompanies, // ?This is a state
+        companyInsurances: companyInsurances, // ? This is a state
+        setCompanyInsurances: setCompanyInsurances, // ? This is a state
+        loading: loading, //? This is a state
+        setLoading: setLoading, //? This is a state
         fetchAllCompanies: fetchAllCompanies, // ? This is a function
+        fetchCompanyInsurances: fetchCompanyInsurances, // ? This is a function
       }}
     >
       {children}

@@ -6,6 +6,23 @@
 
 @import url(./css/reset.css);
 
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
 /* :root {
   --dark: #2a3042;
   --white: #ffffff;
@@ -49,4 +66,14 @@ nav {
   background: #fff none;
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.12);
+}
+
+/* .spinner-container {
+  width: 2;
+  text-align: center;
+  padding: 3rem;
+} */
+
+.spinner-container svg {
+  animation: spin 1s linear infinite;
 }

@@ -2,10 +2,26 @@ import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import Pagination from '../components/Pagination'
 import DefaultIconButton from '../components/shared/DefaultIconButton'
+import Spinner from '../components/shared/Spinner'
 import CompanyItem from '../components/CompanyItem'
 import { useNavigate } from 'react-router-dom'
 
+import APIContext from '../context/APIContext'
+import { useContext, useEffect } from 'react'
+
 const Companies = () => {
+  const { companies, setCompanies, loading, setLoading, fetchAllCompanies } =
+    useContext(APIContext)
+
+  useEffect(() => {
+    const getDataCompanies = async () => {
+      const _companies = await fetchAllCompanies()
+      setCompanies(_companies)
+      setLoading(false)
+    }
+    getDataCompanies()
+  }, [])
+
   const navigate = useNavigate()
 
   const goToCreateCompany = (e) => {
@@ -34,42 +50,45 @@ const Companies = () => {
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full sm:px-6 lg:px-8">
                 <div className="overflow-x-auto">
-                  <table className="min-w-full">
-                    <thead className="bg-[#2A3042]">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="text-white font-['Poppins'] font-[600] text-[0.875rem] rounded-tl-[0.500rem] pl-12 py-4 text-left"
-                        >
-                          Logo
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-white font-['Poppins'] font-[600] text-[0.875rem] px-6 py-4 text-left min-w-[5rem]"
-                        >
-                          Nombre
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-white font-['Poppins'] font-[600] text-[0.875rem] rounded-tr-[0.500rem] px-6 py-4 text-left"
-                        >
-                          Acciones
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <CompanyItem />
-                      <CompanyItem />
-                      <CompanyItem />
-                      <CompanyItem />
-                      <CompanyItem />
-                      <CompanyItem />
-                      <CompanyItem />
-                      <CompanyItem />
-                      <CompanyItem />
-                      <CompanyItem />
-                    </tbody>
-                  </table>
+                  {loading ? (
+                    <div className="mx-auto w-[2rem] h-[2rem] my-8 spinner-container">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <table className="min-w-full">
+                      <thead className="bg-[#2A3042]">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="text-white font-['Poppins'] font-[600] text-[0.875rem] rounded-tl-[0.500rem] pl-12 py-4 text-left"
+                          >
+                            Logo
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-white font-['Poppins'] font-[600] text-[0.875rem] px-6 py-4 text-left min-w-[5rem]"
+                          >
+                            Nombre
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-white font-['Poppins'] font-[600] text-[0.875rem] rounded-tr-[0.500rem] px-6 py-4 text-left"
+                          >
+                            Acciones
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {companies.map((_obj) => (
+                          <CompanyItem
+                            key={_obj.id}
+                            id={_obj.id}
+                            company_name={_obj.name}
+                          />
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
               </div>
             </div>

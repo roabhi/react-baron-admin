@@ -34,7 +34,7 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/companies" element={<Companies />} />
-                <Route path="/company" element={<Company />} />
+                <Route path="/company/:id" element={<Company />} />
                 <Route path="/create" element={<CreateCompany />} />
                 <Route path="/update" element={<EditCompany />} />
               </Routes>
@@ -42,7 +42,7 @@ const App = () => {
           </Router>
         </ModalProvider>
       </APIProvider>
-      <div id="grid"></div>
+      {/* <div id="grid"></div> */}
     </>
   )
 }

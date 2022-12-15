@@ -1,4 +1,5 @@
 const Insurance = ({
+  company_id,
   category,
   company_category,
   domain,
@@ -8,7 +9,7 @@ const Insurance = ({
   score,
 }) => {
   return (
-    <tr className="border-b">
+    <tr data-company-id={company_id} className="border-b">
       <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
         {category[0].toUpperCase() + category.substr(1)}
       </td>
@@ -16,19 +17,21 @@ const Insurance = ({
         {company_category[0].toUpperCase() + company_category.substr(1)}
       </td>
       <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-        {domain}
+        {domain === 'pub' && <>P&uacute;blico</>}
+        {domain === 'pri' && <>Privado</>}
+        {domain === 'mix' && <>Mixto</>}
       </td>
       <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
         {estetic}
       </td>
       <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-        {capital_range}
+        {Math.trunc(capital_range)}
       </td>
       <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
         {cost}
       </td>
       <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-        {score}
+        {Math.trunc(score)}
       </td>
     </tr>
   )
