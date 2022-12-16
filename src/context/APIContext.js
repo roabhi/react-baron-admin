@@ -11,9 +11,9 @@ import { createContext, useState } from 'react'
 const APIContext = createContext()
 
 export const APIProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true),
-    [companyInsurances, setCompanyInsurances] = useState([]),
-    [companies, setCompanies] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [companyInsurances, setCompanyInsurances] = useState([])
+  const [companies, setCompanies] = useState([])
 
   const fetchAllCompanies = async () => {
     const response = await fetch(
@@ -31,9 +31,9 @@ export const APIProvider = ({ children }) => {
     return data
   }
 
-  const fetchCompanyInsurances = async (company_id) => {
+  const fetchCompanyInsurances = async (company_id, pagination) => {
     const response = await fetch(
-      `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}/insurances?page=1&per_page=50`
+      `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}/insurances?page=${pagination}&per_page=50`
     )
     const data = await response.json()
     return data

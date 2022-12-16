@@ -1,6 +1,6 @@
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
-import Pagination from '../components/Pagination'
+// import Pagination from '../components/Pagination'
 import Insurance from '../components/Insurance'
 import DefaultIconButton from '../components/shared/DefaultIconButton'
 import Spinner from '../components/shared/Spinner'
@@ -41,12 +41,14 @@ const Company = () => {
   const params = useParams()
 
   const [companyData, setCompanyData] = useState({})
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
 
   useEffect(() => {
     const getCompanyInsurances = async () => {
-      const _insurances = await fetchCompanyInsurances(params.id)
+      const _insurances = await fetchCompanyInsurances(params.id, currentPage)
       // console.log(_insurances) //Returns ab object with data array and meta object I see for
-      // the pagination?
+      setTotalPages(_insurances.meta.page_count)
       setCompanyInsurances(_insurances.data)
       setLoading(false)
     }
@@ -66,6 +68,8 @@ const Company = () => {
     setLoading,
     fetchCompanyInsurances,
     fetchCompany,
+    currentPage,
+    setTotalPages,
   ])
 
   const hideCurrentModal = () => {
@@ -82,6 +86,29 @@ const Company = () => {
       hideCurrentModal, // function to modal
       false //false will paint just a single button for modal
     )
+  }
+
+  const loadNewPage = async () => {
+    const _insurances = await fetchCompanyInsurances(params.id, currentPage)
+    setCompanyInsurances(_insurances.data)
+    setLoading(false)
+  }
+
+  const getNewPage = (e) => {
+    if (
+      e.target.id.toString().includes('next') &&
+      currentPage + 1 <= totalPages
+    ) {
+      setCurrentPage(currentPage + 1)
+      loadNewPage()
+    } else if (
+      e.target.id.toString().includes('prev') &&
+      currentPage - 1 >= 1
+    ) {
+      setLoading(true)
+      setCurrentPage(currentPage - 1)
+      loadNewPage()
+    }
   }
 
   return (
@@ -194,7 +221,55 @@ const Company = () => {
               </div>
             </div>
           </div>
-          <Pagination />
+          {/* <Pagination /> */}
+          <div className="pagination font-['Work_Sans'] font-[600] text-[0.813rem] text-[#2A3042] flex items-center justify-end py-5 max-w-[71.188rem] mx-auto">
+            <div className="mr-10">
+              <p>
+                P&aacute;gina <span>{currentPage}</span> de
+                <span className="ml-[0.3rem]">{totalPages}</span>
+              </p>
+            </div>
+            <div>
+              <span
+                id="get-prev-page"
+                className="inline-block w-[0.438rem] h-[0.750rem] cursor-pointer mr-[3rem]"
+                onClick={getNewPage}
+              >
+                <svg
+                  width="7"
+                  height="12"
+                  viewBox="0 0 7 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="pointer-events-none"
+                >
+                  <path
+                    d="M6.76308 1.84593C7.41927 1.22621 6.3803 0.244991 5.72412 0.916353L0.912089 5.40931C0.638679 5.66753 0.638679 6.13232 0.912089 6.39054L5.72412 10.9351C6.3803 11.5549 7.41927 10.5736 6.76308 9.95392C4.44333 7.76309 4.45732 4.05147 6.76308 1.84593Z"
+                    fill="#2A3042"
+                  />
+                </svg>
+              </span>
+              <span
+                id="get-next-page"
+                className="inline-block w-[0.438rem] h-[0.750rem] cursor-pointer"
+                onClick={getNewPage}
+              >
+                <svg
+                  width="7"
+                  height="12"
+                  viewBox="0 0 7 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="pointer-events-none"
+                >
+                  <path
+                    d="M0.391583 1.84593C-0.264603 1.22621 0.774358 0.244991 1.43054 0.916353L6.24257 5.40931C6.51598 5.66753 6.51598 6.13232 6.24257 6.39054L1.43054 10.9351C0.774358 11.5549 -0.264603 10.5736 0.391583 9.95392C2.71133 7.76309 2.69735 4.05147 0.391583 1.84593Z"
+                    fill="#2A3042"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
         </main>
       </div>
       <Header />
