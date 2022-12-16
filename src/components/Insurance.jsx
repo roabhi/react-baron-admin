@@ -3,7 +3,7 @@ const Insurance = ({
   category,
   company_category,
   domain,
-  estetic,
+  // estetic,
   capital_range,
   cost,
   score,
@@ -21,9 +21,9 @@ const Insurance = ({
         {domain === 'pri' && <>Privado</>}
         {domain === 'mix' && <>Mixto</>}
       </td>
-      <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
+      {/* <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
         {estetic}
-      </td>
+      </td> */}
       <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
         {Math.trunc(capital_range)}
       </td>

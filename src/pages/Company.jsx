@@ -7,7 +7,7 @@ import Spinner from '../components/shared/Spinner'
 
 import APIContext from '../context/APIContext'
 import ModalContext from '../context/ModalContext'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { useParams } from 'react-router-dom'
 
@@ -32,12 +32,15 @@ const Company = () => {
   const {
     loading,
     setLoading,
+    fetchCompany,
     companyInsurances,
     setCompanyInsurances,
     fetchCompanyInsurances,
   } = useContext(APIContext)
 
   const params = useParams()
+
+  const [companyData, setCompanyData] = useState({})
 
   useEffect(() => {
     const getCompanyInsurances = async () => {
@@ -48,8 +51,22 @@ const Company = () => {
       setLoading(false)
     }
 
+    const getCompanyInfo = async () => {
+      const _companyInfo = await fetchCompany(params.id)
+      setCompanyData({
+        name: _companyInfo.name,
+      }) // ? Set the header info for company component. Call API and set just name for now
+    }
+
     getCompanyInsurances()
-  }, [params.id, setCompanyInsurances, setLoading, fetchCompanyInsurances])
+    getCompanyInfo()
+  }, [
+    params.id,
+    setCompanyInsurances,
+    setLoading,
+    fetchCompanyInsurances,
+    fetchCompany,
+  ])
 
   const hideCurrentModal = () => {
     hideModal()
@@ -88,7 +105,7 @@ const Company = () => {
               />
             </svg>
             <h1 className="text-[1.375rem] font-['Poppins'] font-[600] text-[#2A3042] ml-[-3rem]">
-              Nombre de Compa&ntilde;&iacute;a
+              {companyData.name}
             </h1>
           </div>
           <div>
@@ -130,12 +147,12 @@ const Company = () => {
                           >
                             &Aacute;mbito
                           </th>
-                          <th
+                          {/* <th
                             scope="col"
                             className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-1/12"
                           >
                             F.Est&eacute;tica
-                          </th>
+                          </th> */}
                           <th
                             scope="col"
                             className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-1/12"
@@ -163,7 +180,7 @@ const Company = () => {
                             category={_obj.category}
                             company_category={_obj.company_category}
                             domain={_obj.domain}
-                            estetic={''}
+                            // estetic={''}
                             capital_range={_obj.capital_range}
                             cost={_obj.cost}
                             score={_obj.score}

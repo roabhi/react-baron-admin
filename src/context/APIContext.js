@@ -23,9 +23,17 @@ export const APIProvider = ({ children }) => {
     return data
   }
 
+  const fetchCompany = async (company_id) => {
+    const response = await fetch(
+      `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}`
+    )
+    const data = await response.json()
+    return data
+  }
+
   const fetchCompanyInsurances = async (company_id) => {
     const response = await fetch(
-      `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}/insurances`
+      `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}/insurances?page=1&per_page=50`
     )
     const data = await response.json()
     return data
@@ -41,6 +49,7 @@ export const APIProvider = ({ children }) => {
         loading: loading, //? This is a state
         setLoading: setLoading, //? This is a state
         fetchAllCompanies: fetchAllCompanies, // ? This is a function
+        fetchCompany: fetchCompany, // ? This is a function
         fetchCompanyInsurances: fetchCompanyInsurances, // ? This is a function
       }}
     >
