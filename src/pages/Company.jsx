@@ -3,14 +3,68 @@ import Sidebar from '../components/Sidebar'
 import Pagination from '../components/Pagination'
 import Insurance from '../components/Insurance'
 import DefaultIconButton from '../components/shared/DefaultIconButton'
-// import { useNavigate } from 'react-router-dom'
+import Spinner from '../components/shared/Spinner'
+
+import APIContext from '../context/APIContext'
+import ModalContext from '../context/ModalContext'
+import { useContext, useEffect } from 'react'
+
+import { useParams } from 'react-router-dom'
 
 const Company = () => {
-  // const navigate = useNavigate()
+  /**
+   * * Returned insurance.data from API
+   *
+   * ? capital_range
+   * ? category
+   * ? company_category
+   * ? company_id
+   * ? cost
+   * ? created_at (not_visible)
+   * ? domain
+   * ? id (this is the id for the insurance itself)
+   * ? scrore
+   * ? updated_at (not visible)
+   */
 
-  const download = () => {
+  const { showModal, hideModal, paintModalContent } = useContext(ModalContext)
+
+  const {
+    loading,
+    setLoading,
+    companyInsurances,
+    setCompanyInsurances,
+    fetchCompanyInsurances,
+  } = useContext(APIContext)
+
+  const params = useParams()
+
+  useEffect(() => {
+    const getCompanyInsurances = async () => {
+      const _insurances = await fetchCompanyInsurances(params.id)
+      // console.log(_insurances) //Returns ab object with data array and meta object I see for
+      // the pagination?
+      setCompanyInsurances(_insurances.data)
+      setLoading(false)
+    }
+
+    getCompanyInsurances()
+  }, [params.id, setCompanyInsurances, setLoading, fetchCompanyInsurances])
+
+  const hideCurrentModal = () => {
+    hideModal()
+  }
+
+  const downloadFile = () => {
     //code to download archive from db
-    console.log('download archive')
+    showModal()
+    paintModalContent(
+      'info', //type
+      'info', //title of modal
+      'You are about to download the file for this company', //text of modal
+      hideCurrentModal, // function to modal
+      false //false will paint just a single button for modal
+    )
   }
 
   return (
@@ -41,7 +95,7 @@ const Company = () => {
             <DefaultIconButton
               text="Descargar Fichero"
               iconType="download"
-              action={download}
+              action={downloadFile}
             />
           </div>
         </header>
@@ -50,696 +104,75 @@ const Company = () => {
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full sm:px-6 lg:px-8">
                 <div className="overflow-x-auto">
-                  <table className="min-w-full">
-                    <thead className="bg-[#2A3042]">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="text-white font-['Poppins'] font-[600] text-[0.875rem] rounded-tl-[0.500rem] pl-6 py-4 text-left w-3/12"
-                        >
-                          Grupo
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-3/12"
-                        >
-                          Especialidad
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-1/12"
-                        >
-                          &Aacute;mbito
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-1/12"
-                        >
-                          F.Est&eacute;tica
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-1/12"
-                        >
-                          Capital
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-1/12"
-                        >
-                          Coste
-                        </th>
-                        <th
-                          scope="col"
-                          className="text-white font-['Poppins'] font-[600] text-[0.875rem] rounded-tr-[0.500rem] pl-3 py-4 text-left w-1/12"
-                        >
-                          Puntuaci&oacute;n
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <Insurance
-                        category="alergología"
-                        company_category="alergología"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="300000"
-                        cost="70"
-                        score="9"
-                      />
-                      <Insurance
-                        category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        company_category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="600000"
-                        cost="125"
-                        score="7"
-                      />
-                      <Insurance
-                        category="alergología"
-                        company_category="alergología"
-                        domain="priv"
-                        estetic="1"
-                        capital_range="1000000"
-                        cost="80.5"
-                        score="6"
-                      />
-                      <Insurance
-                        category="cirugía est&eacute;tica, pl&aacute;tica y reparadora"
-                        company_category="cirugía est&eacute;tica, pl&aacute;tica y reparadora"
-                        domain="mix"
-                        estetic="1"
-                        capital_range="600000"
-                        cost="80"
-                        score="8"
-                      />
-                      <Insurance
-                        category="alergología"
-                        company_category="alergología"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="300000"
-                        cost="70"
-                        score="9"
-                      />
-                      <Insurance
-                        category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        company_category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="600000"
-                        cost="125"
-                        score="7"
-                      />
-                      <Insurance
-                        category="alergología"
-                        company_category="alergología"
-                        domain="priv"
-                        estetic="1"
-                        capital_range="1000000"
-                        cost="80.5"
-                        score="6"
-                      />
-                      <Insurance
-                        category="cirugía est&eacute;tica, pl&aacute;tica y reparadora"
-                        company_category="cirugía est&eacute;tica, pl&aacute;tica y reparadora"
-                        domain="mix"
-                        estetic="1"
-                        capital_range="600000"
-                        cost="80"
-                        score="8"
-                      />
-                      <Insurance
-                        category="alergología"
-                        company_category="alergología"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="300000"
-                        cost="70"
-                        score="9"
-                      />
-                      <Insurance
-                        category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        company_category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="600000"
-                        cost="125"
-                        score="7"
-                      />
-                      <Insurance
-                        category="alergología"
-                        company_category="alergología"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="300000"
-                        cost="70"
-                        score="9"
-                      />
-                      <Insurance
-                        category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        company_category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="600000"
-                        cost="125"
-                        score="7"
-                      />
-                      <Insurance
-                        category="alergología"
-                        company_category="alergología"
-                        domain="priv"
-                        estetic="1"
-                        capital_range="1000000"
-                        cost="80.5"
-                        score="6"
-                      />
-                      <Insurance
-                        category="cirugía est&eacute;tica, pl&aacute;tica y reparadora"
-                        company_category="cirugía est&eacute;tica, pl&aacute;tica y reparadora"
-                        domain="mix"
-                        estetic="1"
-                        capital_range="600000"
-                        cost="80"
-                        score="8"
-                      />
-                      <Insurance
-                        category="alergología"
-                        company_category="alergología"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="300000"
-                        cost="70"
-                        score="9"
-                      />
-                      <Insurance
-                        category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        company_category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="600000"
-                        cost="125"
-                        score="7"
-                      />
-                      <Insurance
-                        category="alergología"
-                        company_category="alergología"
-                        domain="priv"
-                        estetic="1"
-                        capital_range="1000000"
-                        cost="80.5"
-                        score="6"
-                      />
-                      <Insurance
-                        category="cirugía est&eacute;tica, pl&aacute;tica y reparadora"
-                        company_category="cirugía est&eacute;tica, pl&aacute;tica y reparadora"
-                        domain="mix"
-                        estetic="1"
-                        capital_range="600000"
-                        cost="80"
-                        score="8"
-                      />
-                      <Insurance
-                        category="alergología"
-                        company_category="alergología"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="300000"
-                        cost="70"
-                        score="9"
-                      />
-                      <Insurance
-                        category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        company_category="Cirugía Est&eacute;tica, pl&aacute;tica y reparadora"
-                        domain="pub"
-                        estetic="1"
-                        capital_range="600000"
-                        cost="125"
-                        score="7"
-                      />
-                      {/* <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          Cirugía Est&eacute;tica, pl&aacute;tica y reparadora
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          Cirugía Est&eacute;tica, pl&aacute;tica y reparadora
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr> */}
-                      {/* <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          1000000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125.25
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          Cirugía Est&eacute;tica, pl&aacute;tica y reparadora
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          Cirugía Est&eacute;tica, pl&aacute;tica y reparadora
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          0
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          600000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          45.5
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          Cirugía Est&eacute;tica, pl&aacute;tica y reparadora
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          Cirugía Est&eacute;tica, pl&aacute;tica y reparadora
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          0
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          Cirugía Est&eacute;tica, pl&aacute;tica y reparadora
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          Cirugía Est&eacute;tica, pl&aacute;tica y reparadora
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Privado
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          Cirugía Est&eacute;tica, pl&aacute;tica y reparadora
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          Cirugía Est&eacute;tica, pl&aacute;tica y reparadora
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Mixto
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-3/12">
-                          An&aacute;lisis Cl&iacute;nicos
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          Público
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4">
-                          1
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          300000
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-6 py-4 w-1/12">
-                          125
-                        </td>
-                        <td className="font-['Public_Sans'] font-[500] text-[0.813rem] pl-3 py-4 w-1/12">
-                          6
-                        </td>
-                      </tr> */}
-                    </tbody>
-                  </table>
+                  {loading ? (
+                    <div className="mx-auto w-[2rem] h-[2rem] my-8 spinner-container">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <table className="min-w-full">
+                      <thead className="bg-[#2A3042]">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="text-white font-['Poppins'] font-[600] text-[0.875rem] rounded-tl-[0.500rem] pl-6 py-4 text-left w-3/12"
+                          >
+                            Grupo
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-3/12"
+                          >
+                            Especialidad
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-1/12"
+                          >
+                            &Aacute;mbito
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-1/12"
+                          >
+                            F.Est&eacute;tica
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-1/12"
+                          >
+                            Capital
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-white font-['Poppins'] font-[600] text-[0.875rem] pl-6 py-4 text-left w-1/12"
+                          >
+                            Coste
+                          </th>
+                          <th
+                            scope="col"
+                            className="text-white font-['Poppins'] font-[600] text-[0.875rem] rounded-tr-[0.500rem] pl-3 py-4 text-left w-1/12"
+                          >
+                            Puntuaci&oacute;n
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {companyInsurances.map((_obj) => (
+                          <Insurance
+                            company_id={_obj.company_id}
+                            category={_obj.category}
+                            company_category={_obj.company_category}
+                            domain={_obj.domain}
+                            estetic={''}
+                            capital_range={_obj.capital_range}
+                            cost={_obj.cost}
+                            score={_obj.score}
+                            key={_obj.id}
+                          ></Insurance>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
               </div>
             </div>

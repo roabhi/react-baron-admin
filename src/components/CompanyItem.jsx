@@ -1,12 +1,15 @@
 import { useContext } from 'react'
 import ModalContext from '../context/ModalContext'
+import { useNavigate } from 'react-router-dom'
 
 /**
  * TODO This companyItem component show have an id or reference to perform actions on DB
  */
 
-const CompanyItem = () => {
+const CompanyItem = ({ id, company_name }) => {
   const { showModal, hideModal, paintModalContent } = useContext(ModalContext)
+
+  const navigate = useNavigate()
 
   /**
    * TODO This hideCurrentModal function is reused just to hide the modal for now
@@ -15,7 +18,7 @@ const CompanyItem = () => {
    */
 
   const hideCurrentModal = () => {
-    console.log('clicked OK on delete company from modal')
+    console.log('hide modal')
     hideModal()
   }
 
@@ -35,7 +38,8 @@ const CompanyItem = () => {
       'info', //type
       'info', //title of modal
       'You are about to edit this company', //text of modal
-      hideCurrentModal // function to modal
+      hideCurrentModal, // function to modal
+      false //false will paint just a single button for modal
     )
   }
 
@@ -45,19 +49,14 @@ const CompanyItem = () => {
       'alert', //type
       'Alert', //title of modal
       'Are you sure you want to delete this company', //text of modal
-      /**
-       * ? We are looking only at double action behaviour on modals
-       * ? based on the type 'alert' which has attached the action to the
-       * ? containingg div for both buttons instead of a single button
-       * ? we use button-confirm and button-cancel id to select the action to do
-       */
-      selectAction // function to modal
+      selectAction, // function to modal
+      true // isCancelable will paint OK / Cancel buttons
     )
   }
 
   return (
     <>
-      <tr className="border-b">
+      <tr id={id} className="border-b">
         <td className="px-6 py-4 whitespace-nowrap">
           <svg
             className="w-[3.125rem] h-[3.125rem] ml-[-3.5rem]
@@ -76,13 +75,13 @@ const CompanyItem = () => {
           </svg>
         </td>
         <td className="font-['Public_Sans'] font-[500] text-[#2A3042] text-[1.063rem] px-6 py-4 whitespace-nowrap min-w-[16.5rem]">
-          Compa&ntilde;&iacute;a
+          {company_name}
         </td>
         <td className="font-['Work_Sans'] font-[600] text-[#2A3042] text-[0.813rem] px-6 py-4 whitespace-nowrap">
           <div className="w-10/12 flex items-center justify-between">
             <button
               className="border-2 border-[#2A3042] rounded-[0.500rem] py-1 px-10 hover:border-[#7C8691] hover:text-[#7C8691] active:border-[#2A3042] focus:outline-none"
-              onClick={() => console.log('abrir compañia, necesita id')}
+              onClick={() => navigate(`/company/${id}`)}
             >
               Abrir
             </button>

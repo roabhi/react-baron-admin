@@ -1,13 +1,10 @@
-/**
- * TODO create a Context for the Modal so it can be called anywhere
- */
-
-const Modal = ({ type, title, text, action }) => {
+const Modal = ({ type, title, text, action, isCancelable }) => {
   /**
    * * action
    * ? action is a function passed as {function name in parent component}
    * ? to this Modal component so we can do shit on the right component
    * ? getting the click from this Modal component
+   * ? isCancelable is a boolean that will be used to print an OK / Cancel Modal or just OK as buttons
    */
 
   return (
@@ -121,7 +118,7 @@ const Modal = ({ type, title, text, action }) => {
             <p className="font-['Public_Sans'] font-[600] text-[0.875rem] text-[#7C8691] mt-[1.875rem] mx-auto text-center w-[16rem]">
               {text}
             </p>
-            {type === 'alert' && (
+            {isCancelable ? (
               <div
                 className="flex items-center justify-between"
                 onClick={action}
@@ -139,8 +136,7 @@ const Modal = ({ type, title, text, action }) => {
                   Cancel
                 </button>
               </div>
-            )}
-            {type !== 'alert' && (
+            ) : (
               <button
                 className="mt-[2.188rem] mb-[3.063rem] bg-[#2A3042] text-white font-['Work_Sans'] font-[600] text-[0.875rem] rounded-[0.500rem] py-2.5 px-3 w-[14rem] mx-auto cursor-pointer hover:bg-[#7C8691] active:bg-[#7C8691] focus:outline-none focus:ring-2 ring-inset ring-[#2A3042]"
                 onClick={action}

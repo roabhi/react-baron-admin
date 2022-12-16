@@ -6,29 +6,32 @@ const ModalContext = createContext()
 export const ModalProvider = ({ children }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [modalContent, setModalContent] = useState({
-    type: '',
-    title: '',
-    text: '',
-    action: () => {},
+    // type: '',
+    // title: '',
+    // text: '',
+    // action: () => {},
+    // kind: '',
+    // Seems that e do not need to define each prop for initialState, just an empty object will do
   })
 
-  const paintModalContent = (_type, _title, _text, _action) => {
+  const paintModalContent = (_type, _title, _text, _action, _isCancelable) => {
     setModalContent({
       type: _type,
       title: _title,
       text: _text,
       action: _action,
+      isCancelable: _isCancelable,
     })
   }
 
   const showModal = () => {
     setIsModalVisible(true)
-    console.log(isModalVisible)
+    // console.log(isModalVisible)
   }
 
   const hideModal = () => {
     setIsModalVisible(false)
-    console.log(isModalVisible)
+    // console.log(isModalVisible)
   }
 
   return (
@@ -46,6 +49,7 @@ export const ModalProvider = ({ children }) => {
           title={modalContent.title}
           text={modalContent.text}
           action={modalContent.action}
+          isCancelable={modalContent.isCancelable}
         />
       )}
       {/* {!isModalVisible && null} */}
