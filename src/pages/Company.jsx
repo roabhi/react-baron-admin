@@ -50,6 +50,7 @@ const Company = () => {
       // console.log(_insurances) //Returns ab object with data array and meta object I see for
       setTotalPages(_insurances.meta.page_count)
       setCompanyInsurances(_insurances.data)
+      // console.log('current page es ', currentPage)
       setLoading(false)
     }
 
@@ -61,6 +62,7 @@ const Company = () => {
     }
 
     getCompanyInsurances()
+    // loadNewPage()
     getCompanyInfo()
   }, [
     params.id,
@@ -100,6 +102,7 @@ const Company = () => {
       currentPage + 1 <= totalPages
     ) {
       setCurrentPage(currentPage + 1)
+      setCompanyInsurances([])
       loadNewPage()
     } else if (
       e.target.id.toString().includes('prev') &&
@@ -107,6 +110,7 @@ const Company = () => {
     ) {
       setLoading(true)
       setCurrentPage(currentPage - 1)
+      setCompanyInsurances([])
       loadNewPage()
     }
   }
