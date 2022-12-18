@@ -1,9 +1,9 @@
 /**
  * * API endpoint -> https://murmuring-citadel-67317.herokuapp.com/
- * GET companies -> /companies
- * GET Company -> /company/:id/insurances
- * POST Company -> /companies/ @params name, tsv file, imagen (aun no)
- * PATCH Company -> /companies/:id @params name, tsv file, imagen (aun no)
+ * ? GET companies -> /companies
+ * ? GET Company -> /company/:id/insurances
+ * ? POST Company -> /companies/ @params name, tsv file, imagen (aun no)
+ * ? PATCH Company -> /companies/:id @params name, tsv file, imagen (aun no)
  */
 
 import { createContext, useState } from 'react'
@@ -11,32 +11,47 @@ import { createContext, useState } from 'react'
 const APIContext = createContext()
 
 export const APIProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true),
-    [companyInsurances, setCompanyInsurances] = useState([]),
-    [companies, setCompanies] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [companyInsurances, setCompanyInsurances] = useState([])
+  const [companies, setCompanies] = useState([])
 
   const fetchAllCompanies = async () => {
-    const response = await fetch(
-      `https://murmuring-citadel-67317.herokuapp.com/companies`
-    )
-    const data = await response.json()
-    return data
+    try {
+      const response = await fetch(
+        `https://murmuring-citadel-67317.herokuapp.com/companies`
+      )
+      const data = await response.json()
+      return data
+    } catch (error) {
+      // TODO here we prompt an error modal
+      console.log(error)
+    }
   }
 
   const fetchCompany = async (company_id) => {
-    const response = await fetch(
-      `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}`
-    )
-    const data = await response.json()
-    return data
+    try {
+      const response = await fetch(
+        `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}`
+      )
+      const data = await response.json()
+      return data
+    } catch (error) {
+      // TODO here we prompt an error modal
+      console.log(error)
+    }
   }
 
-  const fetchCompanyInsurances = async (company_id) => {
-    const response = await fetch(
-      `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}/insurances?page=1&per_page=50`
-    )
-    const data = await response.json()
-    return data
+  const fetchCompanyInsurances = async (company_id, pagination) => {
+    try {
+      const response = await fetch(
+        `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}/insurances?page=${pagination}&per_page=50`
+      )
+      const data = await response.json()
+      return data
+    } catch (error) {
+      // TODO Here we prompt an error modal
+      console.log('error')
+    }
   }
 
   return (
