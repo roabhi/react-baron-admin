@@ -11,27 +11,42 @@ import { createContext, useState } from 'react'
 const APIContext = createContext()
 
 export const APIProvider = ({ children }) => {
+  /**
+   * * Set States
+   */
+
   const [loading, setLoading] = useState(true)
   const [companyInsurances, setCompanyInsurances] = useState([])
   const [companies, setCompanies] = useState([])
+
+  /**
+   * * Modal functions
+   */
+
+  /**
+   * * Fetch functions
+   */
+
+  const fetchCompany = async (company_id) => {
+    let data
+
+    try {
+      const response = await fetch(
+        `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}`
+      )
+      data = await response.json()
+    } catch (_error) {
+      // TODO here we prompt an error modal
+      data = { error: _error }
+    }
+
+    return data
+  }
 
   const fetchAllCompanies = async () => {
     try {
       const response = await fetch(
         `https://murmuring-citadel-67317.herokuapp.com/companies`
-      )
-      const data = await response.json()
-      return data
-    } catch (error) {
-      // TODO here we prompt an error modal
-      console.log(error)
-    }
-  }
-
-  const fetchCompany = async (company_id) => {
-    try {
-      const response = await fetch(
-        `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}`
       )
       const data = await response.json()
       return data

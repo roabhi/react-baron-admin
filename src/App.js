@@ -24,8 +24,8 @@ import { ModalProvider } from './context/ModalContext'
 const App = () => {
   return (
     <>
-      <APIProvider>
-        <ModalProvider>
+      <ModalProvider>
+        <APIProvider>
           <Router>
             <div
               id="holder"
@@ -40,8 +40,8 @@ const App = () => {
               </Routes>
             </div>
           </Router>
-        </ModalProvider>
-      </APIProvider>
+        </APIProvider>
+      </ModalProvider>
       {/* <div id="grid"></div> */}
     </>
   )

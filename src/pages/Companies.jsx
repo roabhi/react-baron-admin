@@ -1,6 +1,6 @@
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
-import Pagination from '../components/Pagination'
+// import Pagination from '../components/Pagination'
 import DefaultIconButton from '../components/shared/DefaultIconButton'
 import Spinner from '../components/shared/Spinner'
 import CompanyItem from '../components/CompanyItem'
@@ -10,8 +10,16 @@ import APIContext from '../context/APIContext'
 import { useContext, useEffect } from 'react'
 
 const Companies = () => {
+  /**
+   * * Use APIContext
+   */
+
   const { companies, setCompanies, loading, setLoading, fetchAllCompanies } =
     useContext(APIContext)
+
+  /**
+   * * Use Effect
+   */
 
   useEffect(() => {
     const getDataCompanies = async () => {
@@ -23,11 +31,19 @@ const Companies = () => {
     // document.querySelector('header div h1').textContent = 'Listado de Compañías'
   }, [fetchAllCompanies, setCompanies, setLoading])
 
+  /**
+   * * Use Navigate
+   */
+
   const navigate = useNavigate()
 
   const goToCreateCompany = (e) => {
     navigate('/create')
   }
+
+  /**
+   * * Render
+   */
 
   return (
     <>
@@ -85,6 +101,7 @@ const Companies = () => {
                             key={_obj.id}
                             id={_obj.id}
                             company_name={_obj.name}
+                            picture_url={_obj.picture_url}
                           />
                         ))}
                       </tbody>
@@ -94,7 +111,7 @@ const Companies = () => {
               </div>
             </div>
           </div>
-          <Pagination />
+          {/* <Pagination /> */}
         </main>
       </div>
       <Header />

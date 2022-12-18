@@ -23,6 +23,17 @@ const Sidebar = () => {
               <Link
                 className="text-[#DFDFDF] hover:text-[#08A18F]"
                 to="/companies"
+                onClick={() => {
+                  !document
+                    .getElementById('holder')
+                    .classList.contains('show-sidebar')
+                    ? document
+                        .getElementById('holder')
+                        .classList.add('show-sidebar')
+                    : document
+                        .getElementById('holder')
+                        .classList.remove('show-sidebar')
+                }}
               >
                 Compa&ntilde;&iacute;as
               </Link>
