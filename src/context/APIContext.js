@@ -24,7 +24,7 @@ export const APIProvider = ({ children }) => {
    */
 
   /**
-   * * Fetch functions
+   * * GET functions
    */
 
   const fetchCompany = async (company_id) => {
@@ -68,6 +68,10 @@ export const APIProvider = ({ children }) => {
       console.log('error')
     }
   }
+
+  /**
+   * * POST functions
+   */
 
   return (
     <APIContext.Provider
