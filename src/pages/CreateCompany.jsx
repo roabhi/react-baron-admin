@@ -1,16 +1,51 @@
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import DefaultIconButton from '../components/shared/DefaultIconButton'
-import { useState } from 'react'
+import APIContext from '../context/APIContext'
+import ModalContext from '../context/ModalContext'
+import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const CreateCompany = () => {
-  const [name, setName] = useState('')
-  const [logo, setLogo] = useState(null)
-  const [insurances, setInsurances] = useState(null)
+  /**
+   * * Use API Context
+   */
 
+  const { createCompany } = useContext(APIContext)
+
+  /**
+   * * Use Modal Context
+   */
+
+  const { showModal, hideModal, paintModalContent } = useContext(ModalContext)
+
+  /**
+   * * Use State
+   */
+
+  const [name, setName] = useState('')
+  const [logo, setLogo] = useState([])
+  const [insurances, setInsurances] = useState([])
+
+  /**
+   * * Use navigate
+   */
+
+  const navigate = useNavigate()
+
+  /**
+   * * Component functions ================================================================
+   */
+
+  const goBack = () => {
+    navigate('/companies')
+  }
+
+  const redirectToCompanies = () => {
+    hideModal()
+    goBack()
+  }
   const handleInsuranceFile = (e) => {
-    // console.log(e.target.files[0])
     document.getElementById(
       'POST-insurances'
     ).parentNode.nextSibling.textContent = e.target.files[0].name // ? set tsv name in form
@@ -18,38 +53,34 @@ const CreateCompany = () => {
   }
 
   const handleLogoFile = (e) => {
-    // console.log(e.target.files[0])
     document.getElementById('POST-logo').parentNode.nextSibling.textContent =
       e.target.files[0].name // ? set logo name in form
     setLogo(e.target.files[0])
   }
 
-  const postEntry = async (_data) => {
-    // ? log out content of formData. They seem to be fine
-    console.log(_data.get('csv_file'), _data.get('name'), _data.get('picture'))
+  const insertCompany = async (_formData) => {
+    const msg = await createCompany(_formData)
 
-    /**
-     * TODO get the fetch to work
-     */
+    // TODO end of uplaoding UI process here
 
-    try {
-      const res = await fetch(
-        `https://murmuring-citadel-67317.herokuapp.com/companies`,
-        {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          body: _data,
-        }
+    showModal()
+
+    if (msg?.error) {
+      paintModalContent(
+        'error', //type
+        'Error', //title of modal
+        'Error al crear compañia', //text of modal
+        redirectToCompanies, // function to modal
+        false //false will paint just a single button for modal
       )
-
-      const string = await res.text()
-      const data = string === '' ? {} : JSON.parse(string)
-      console.log(data)
-    } catch (error) {
-      console.log(error)
+    } else {
+      paintModalContent(
+        'success', //type
+        'Ok', //title of modal
+        `La compañia ${msg.name} se ha creado correctamente`, //text of modal
+        redirectToCompanies, // function to modal
+        false //false will paint just a single button for modal
+      )
     }
   }
 
@@ -62,13 +93,9 @@ const CreateCompany = () => {
     formData.append('name', name)
     formData.append('picture', logo)
 
-    postEntry(formData)
-  }
+    // TODO uploading UI indicator goes here
 
-  const navigate = useNavigate()
-
-  const goBack = () => {
-    navigate('/companies')
+    insertCompany(formData)
   }
 
   return (

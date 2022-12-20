@@ -10,6 +10,8 @@ import { createContext, useState } from 'react'
 
 const APIContext = createContext()
 
+const APIENDPOINT = 'https://murmuring-citadel-67317.herokuapp.com/'
+
 export const APIProvider = ({ children }) => {
   /**
    * * Set States
@@ -31,9 +33,7 @@ export const APIProvider = ({ children }) => {
     let data
 
     try {
-      const response = await fetch(
-        `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}`
-      )
+      const response = await fetch(`${APIENDPOINT}/companies/${company_id}`)
       data = await response.json()
     } catch (_error) {
       // TODO here we prompt an error modal
@@ -45,9 +45,7 @@ export const APIProvider = ({ children }) => {
 
   const fetchAllCompanies = async () => {
     try {
-      const response = await fetch(
-        `https://murmuring-citadel-67317.herokuapp.com/companies`
-      )
+      const response = await fetch(`${APIENDPOINT}/companies`)
       const data = await response.json()
       return data
     } catch (error) {
@@ -59,7 +57,7 @@ export const APIProvider = ({ children }) => {
   const fetchCompanyInsurances = async (company_id, pagination) => {
     try {
       const response = await fetch(
-        `https://murmuring-citadel-67317.herokuapp.com/companies/${company_id}/insurances?page=${pagination}&per_page=50`
+        `${APIENDPOINT}/companies/${company_id}/insurances?page=${pagination}&per_page=50`
       )
       const data = await response.json()
       return data
@@ -73,6 +71,22 @@ export const APIProvider = ({ children }) => {
    * * POST functions
    */
 
+  const createCompany = async (_data) => {
+    let message
+
+    try {
+      const res = await fetch(`${APIENDPOINT}/companies`, {
+        method: 'POST',
+        body: _data,
+      })
+      message = await res.json()
+    } catch (error) {
+      message = { error: error }
+    }
+
+    return message
+  }
+
   return (
     <APIContext.Provider
       value={{
@@ -85,6 +99,7 @@ export const APIProvider = ({ children }) => {
         fetchAllCompanies: fetchAllCompanies, // ? This is a function
         fetchCompany: fetchCompany, // ? This is a function
         fetchCompanyInsurances: fetchCompanyInsurances, // ? This is a function
+        createCompany: createCompany, // ? This is a function
       }}
     >
       {children}
