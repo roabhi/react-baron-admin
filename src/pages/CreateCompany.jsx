@@ -5,6 +5,7 @@ import APIContext from '../context/APIContext'
 import ModalContext from '../context/ModalContext'
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Spinner from '../components/shared/Spinner'
 
 const CreateCompany = () => {
   /**
@@ -26,6 +27,7 @@ const CreateCompany = () => {
   const [name, setName] = useState('')
   const [logo, setLogo] = useState([])
   const [insurances, setInsurances] = useState([])
+  const [isFormBusy, setIsFormBusy] = useState(false)
 
   /**
    * * Use navigate
@@ -61,7 +63,7 @@ const CreateCompany = () => {
   const insertCompany = async (_formData) => {
     const msg = await createCompany(_formData)
 
-    // TODO end of uplaoding UI process here
+    setIsFormBusy(false)
 
     showModal()
 
@@ -93,7 +95,7 @@ const CreateCompany = () => {
     formData.append('name', name)
     formData.append('picture', logo)
 
-    // TODO uploading UI indicator goes here
+    setIsFormBusy(true)
 
     insertCompany(formData)
   }
@@ -175,11 +177,24 @@ const CreateCompany = () => {
                   />
                 </div>
                 <span className="translate-y-[-0.5rem] inline-block font-[400] font-['Work_Sans'] text-[#2A3042] text-[0.688rem] w-1/3 truncate"></span>
-                <input
-                  type="submit"
-                  value="Enviar"
-                  className="block mt-[4.63rem] mb-[3.313rem] bg-[#2A3042] text-white font-['Work_Sans'] font-[600] text-[0.875rem] rounded-[0.500rem] py-2.5 px-3 w-96 cursor-pointer hover:bg-[#7C8691] active:bg-[#7C8691] focus:outline-none focus:ring-2 ring-inset ring-[#2A3042]"
-                />
+                {!isFormBusy ? (
+                  <input
+                    type="submit"
+                    value="Enviar"
+                    className="block relative mt-[4.63rem] mb-[3.313rem] bg-[#2A3042] text-white font-['Work_Sans'] font-[600] text-[0.875rem] rounded-[0.500rem] py-2.5 px-3 w-96 cursor-pointer hover:bg-[#7C8691] active:bg-[#7C8691] focus:outline-none focus:ring-2 ring-inset ring-[#2A3042]"
+                  />
+                ) : (
+                  <div className="pointer-events-none mt-[4.63rem] mb-[3.313rem] bg-[#2A3042] rounded-[0.500rem] flex items-center justify-center w-96 pl-[1rem]">
+                    <div className="spinner-container w-[1rem] h-[1rem]">
+                      <Spinner className="" color="#ffffff" />
+                    </div>
+                    <input
+                      type="submit"
+                      value="Enviando, espera por favor"
+                      className="inline-block bg-[#2A3042] text-white font-['Work_Sans'] font-[600] text-[0.875rem] py-2.5 pr-[1.5rem] mx-auto w-3/4"
+                    />
+                  </div>
+                )}
               </form>
             </div>
           </div>
