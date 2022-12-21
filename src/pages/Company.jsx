@@ -79,7 +79,7 @@ const Company = () => {
         paintModalContent(
           'error', //type
           'error', //title of modal
-          'Error getting company info. You will be redirected', //text of modal
+          'Error leyendo compañia desde la base de datos', //text of modal
           hideModalAndRedirect, // function to modal
           false //false will paint just a single button for modal
         )
@@ -101,6 +101,7 @@ const Company = () => {
 
     getCompanyInfo()
     getCompanyInsurances()
+    // eslint-disable-next-line
   }, [])
 
   const hideModalAndRedirect = () => {
@@ -119,7 +120,7 @@ const Company = () => {
     paintModalContent(
       'info', //type
       'info', //title of modal
-      'You are about to download the file for this company', //text of modal
+      '¿Seguro que quieres descargar el archivo para esta compañia?', //text of modal
       getFileFromDb, // function to modal
       false //false will paint just a single button for modal
     )

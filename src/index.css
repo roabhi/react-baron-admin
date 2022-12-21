@@ -75,5 +75,5 @@ nav {
 } */
 
 .spinner-container svg {
-  animation: spin 1s linear infinite;
+  animation: spin 0.75s ease-in-out infinite;
 }

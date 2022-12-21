@@ -48,7 +48,7 @@ const CompanyItem = ({ id, company_name, picture_url }) => {
     paintModalContent(
       'alert', //type
       'Alert', //title of modal
-      'Are you sure you want to delete this company', //text of modal
+      '¿Seguro que quieres borrar esta compañia?', //text of modal
       selectAction, // function to modal
       true // isCancelable will paint OK / Cancel buttons
     )
