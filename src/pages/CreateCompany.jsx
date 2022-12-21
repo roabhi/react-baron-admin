@@ -87,6 +87,10 @@ const CreateCompany = () => {
   }
 
   const handleFormSubmit = (e) => {
+    /**
+     * TODO form validation. All fields are necessary
+     */
+
     e.preventDefault()
 
     const formData = new FormData()
@@ -190,7 +194,7 @@ const CreateCompany = () => {
                     </div>
                     <input
                       type="submit"
-                      value="Enviando, espera por favor"
+                      value="Un momento por favor"
                       className="inline-block bg-[#2A3042] text-white font-['Work_Sans'] font-[600] text-[0.875rem] py-2.5 pr-[1.5rem] mx-auto w-3/4"
                     />
                   </div>
