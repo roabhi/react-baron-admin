@@ -1,20 +1,29 @@
 import { useContext } from 'react'
 import ModalContext from '../context/ModalContext'
 import { useNavigate } from 'react-router-dom'
-
-/**
- * TODO This companyItem component show have an id or reference to perform actions on DB
- */
+import APIContext from '../context/APIContext'
 
 const CompanyItem = ({ id, company_name, picture_url }) => {
+  /**
+   * * Use API Context
+   */
+
+  const { deleteCompany } = useContext(APIContext)
+
+  /**
+   * * Use Modal Context
+   */
+
   const { showModal, hideModal, paintModalContent } = useContext(ModalContext)
+
+  /**
+   * * Use Navigate
+   */
 
   const navigate = useNavigate()
 
   /**
-   * TODO This hideCurrentModal function is reused just to hide the modal for now
-   * TODO Once we have final actions from CRUD each Modal should be passed and
-   * TODO an action to perform DB operations or whatever
+   * * Component functions ================================================================
    */
 
   const hideCurrentModal = () => {
@@ -22,14 +31,26 @@ const CompanyItem = ({ id, company_name, picture_url }) => {
     hideModal()
   }
 
-  const selectAction = (e) => {
-    // ? Test
-    e.target.id.toString().includes('confirm')
-      ? console.log('clicked on confirm')
-      : console.log('clicked on cancel')
+  const removeCompanyFromDB = async (_companyId) => {
+    // TODO el DELETE desde la API no devuelve nada
+    const msg = await deleteCompany(_companyId)
+    console.log(msg)
+    hideModal()
+  }
 
-    // ? Hide anyways
-    hideCurrentModal()
+  const selectAction = (e) => {
+    if (e.target.id.toString().includes('confirm')) {
+      paintModalContent(
+        'info', //type
+        'info', //title of modal
+        'Un momento por favor', //text of modal
+        hideCurrentModal, // function to modal
+        false //false will paint just a single button for modal
+      )
+      removeCompanyFromDB(document.querySelector('[data-delete="true"]').id)
+    } else {
+      hideCurrentModal()
+    }
   }
 
   const onEditCompanyClick = () => {
@@ -43,12 +64,29 @@ const CompanyItem = ({ id, company_name, picture_url }) => {
     )
   }
 
-  const onDeleteCompanyClick = () => {
+  const onDeleteCompanyClick = (e) => {
+    /**
+     * ? This is a workaround since I cannot / know
+     * ? how to pass additional dynamic parameters to functions
+     * ? inside components
+     */
+
+    // eslint-disable-next-line
+    Array.from(document.querySelectorAll('tbody tr')).map((el) => {
+      delete el.dataset.delete
+    }) // ? Delete any previous markers for company deletion
+
+    // ? Assign new target
+    const _target = e.target.parentNode.parentNode.parentNode
+    _target.dataset.delete = 'true'
+
     showModal()
     paintModalContent(
       'alert', //type
-      'Alert', //title of modal
-      '¿Seguro que quieres borrar esta compañia?', //text of modal
+      'Alerta!', //title of modal
+      `¿Seguro que quieres borrar la compañia ${
+        _target.querySelector('td:nth-child(2').textContent
+      }?`, //text of modal
       selectAction, // function to modal
       true // isCancelable will paint OK / Cancel buttons
     )

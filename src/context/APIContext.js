@@ -68,7 +68,7 @@ export const APIProvider = ({ children }) => {
   }
 
   /**
-   * * POST functions
+   * * POST function
    */
 
   const createCompany = async (_data) => {
@@ -78,6 +78,25 @@ export const APIProvider = ({ children }) => {
       const res = await fetch(`${APIENDPOINT}/companies`, {
         method: 'POST',
         body: _data,
+      })
+      message = await res.json()
+    } catch (error) {
+      message = { error: error }
+    }
+
+    return message
+  }
+
+  /**
+   * * DELETE function
+   */
+
+  const deleteCompany = async (_company_id) => {
+    let message
+
+    try {
+      const res = await fetch(`${APIENDPOINT}/companies/${_company_id}`, {
+        method: 'DELETE',
       })
       message = await res.json()
     } catch (error) {
@@ -100,6 +119,7 @@ export const APIProvider = ({ children }) => {
         fetchCompany: fetchCompany, // ? This is a function
         fetchCompanyInsurances: fetchCompanyInsurances, // ? This is a function
         createCompany: createCompany, // ? This is a function
+        deleteCompany: deleteCompany, // ? This is a function
       }}
     >
       {children}
