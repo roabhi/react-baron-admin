@@ -53,16 +53,16 @@ const CompanyItem = ({ id, company_name, picture_url }) => {
     }
   }
 
-  const onEditCompanyClick = () => {
-    showModal()
-    paintModalContent(
-      'info', //type
-      'info', //title of modal
-      'You are about to edit this company', //text of modal
-      hideCurrentModal, // function to modal
-      false //false will paint just a single button for modal
-    )
-  }
+  // const onEditCompanyClick = () => {
+  //   showModal()
+  //   paintModalContent(
+  //     'info', //type
+  //     'info', //title of modal
+  //     'You are about to edit this company', //text of modal
+  //     hideCurrentModal, // function to modal
+  //     false //false will paint just a single button for modal
+  //   )
+  // }
 
   const onDeleteCompanyClick = (e) => {
     /**
@@ -115,7 +115,7 @@ const CompanyItem = ({ id, company_name, picture_url }) => {
             </button>
             <button
               className="border-2 border-[#2A3042] rounded-[0.500rem] py-1 px-10 hover:border-[#7C8691] hover:text-[#7C8691] active:border-[#2A3042] focus:outline-none"
-              onClick={onEditCompanyClick}
+              onClick={() => navigate(`/update/${id}`)}
             >
               Editar
             </button>

@@ -1,14 +1,65 @@
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import DefaultIconButton from '../components/shared/DefaultIconButton'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState, useContext } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import APIContext from '../context/APIContext'
 
 const EditCompany = () => {
+  /**
+   * * Use API Context
+   */
+
+  const { fetchCompany } = useContext(APIContext)
+
+  /**
+   * * Use State
+   */
+
+  const [name, setName] = useState('')
+  // const [logo, setLogo] = useState([])
+  // const [insurances, setInsurances] = useState([])
+
+  /**
+   * * Use params
+   */
+
+  const params = useParams()
+
+  /**
+   * * Use navigate
+   */
+
   const navigate = useNavigate()
 
   const goBack = () => {
     navigate('/companies')
   }
+
+  /**
+   * * Use Effect
+   */
+
+  useEffect(() => {
+    const getCompanyInfo = async () => {
+      const _companyInfo = await fetchCompany(params.id)
+
+      if (_companyInfo?.error) {
+        // showModal()
+        // paintModalContent(
+        //   'error', //type
+        //   'error', //title of modal
+        //   'Error leyendo compañia desde la base de datos', //text of modal
+        //   hideModalAndRedirect, // function to modal
+        //   false //false will paint just a single button for modal
+        // )
+        console.log('error')
+      } else {
+        setName(_companyInfo.name)
+      }
+    }
+    getCompanyInfo()
+  }, [fetchCompany, params.id])
 
   return (
     <>
@@ -46,7 +97,7 @@ const EditCompany = () => {
                   type="text"
                   name="name"
                   placeholder="Nombre"
-                  defaultValue="Nombre de Compañia"
+                  defaultValue={name}
                   className="placeholder:text-[#DFDFDF] placeholder:font-['Work_Sans'] placeholder:font-[600] placeholder:text-[0.813rem] block bg-[#F0F0F0] w-96 border border-[#DFDFDF] rounded-[0.500rem] py-3 px-3 mt-[0.813rem] focus:outline-none focus:ring-1 ring-inset ring-[#7C8691] font-['Work_Sans'] text-[0.813rem] text-[#7C8691]"
                 />
                 <div className="flex items-center justify-between w-96 mt-[2.750rem]">
