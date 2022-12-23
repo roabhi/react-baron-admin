@@ -74,6 +74,8 @@ const Company = () => {
     const getCompanyInfo = async () => {
       const _companyInfo = await fetchCompany(params.id)
 
+      console.log(_companyInfo)
+
       if (_companyInfo?.error) {
         showModal()
         paintModalContent(
@@ -86,7 +88,8 @@ const Company = () => {
       } else {
         setCompanyData({
           name: _companyInfo.name,
-          picture_url: _companyInfo.picture_url,
+          picture_url: _companyInfo.picture_data.url,
+          file_url: _companyInfo.csv_data.url,
         }) // ? Set the header info for company component. Call API and set just name for now
       }
     }
@@ -109,20 +112,21 @@ const Company = () => {
     navigate('/companies')
   }
 
-  const getFileFromDb = () => {
+  const selectAction = (e) => {
+    if (e.target.id.toString().includes('confirm')) {
+      window.location.href = companyData.file_url
+    }
     hideModal()
-    // TODO script to download file
   }
 
   const downloadFile = () => {
-    //code to download archive from db
     showModal()
     paintModalContent(
       'info', //type
       'info', //title of modal
-      '¿Seguro que quieres descargar el archivo para esta compañia?', //text of modal
-      getFileFromDb, // function to modal
-      false //false will paint just a single button for modal
+      `¿Descargar el archivo para ${companyData.name}?`, //text of modal
+      selectAction, // function to modal
+      true //false will paint just a single button for modal
     )
   }
 

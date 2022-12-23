@@ -101,7 +101,7 @@ const Companies = () => {
                             key={_obj.id}
                             id={_obj.id}
                             company_name={_obj.name}
-                            picture_url={_obj.picture_url}
+                            picture_url={_obj.picture_data.url}
                           />
                         ))}
                       </tbody>

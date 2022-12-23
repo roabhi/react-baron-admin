@@ -106,6 +106,25 @@ export const APIProvider = ({ children }) => {
     return message
   }
 
+  /**
+   * * PATCH function
+   */
+
+  const editCompany = async (_company_id, _data) => {
+    let message
+
+    try {
+      const res = await fetch(`${APIENDPOINT}/companies/${_company_id}`, {
+        method: 'PATCH',
+        body: _data,
+      })
+      message = await res.json()
+    } catch (error) {
+      message = { error: error }
+    }
+    return message
+  }
+
   return (
     <APIContext.Provider
       value={{
@@ -120,6 +139,7 @@ export const APIProvider = ({ children }) => {
         fetchCompanyInsurances: fetchCompanyInsurances, // ? This is a function
         createCompany: createCompany, // ? This is a function
         deleteCompany: deleteCompany, // ? This is a function
+        editCompany: editCompany, //? This is a function
       }}
     >
       {children}
