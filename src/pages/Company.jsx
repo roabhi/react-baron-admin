@@ -74,8 +74,6 @@ const Company = () => {
     const getCompanyInfo = async () => {
       const _companyInfo = await fetchCompany(params.id)
 
-      console.log(_companyInfo)
-
       if (_companyInfo?.error) {
         showModal()
         paintModalContent(
@@ -95,17 +93,29 @@ const Company = () => {
     }
 
     const getCompanyInsurances = async () => {
-      const _insurances = await fetchCompanyInsurances(params.id, currentPage)
-      console.log(_insurances)
-      setTotalPages(_insurances.meta.page_count)
-      setCompanyInsurances(_insurances.data)
-      setLoading(false)
+      await fetchCompanyInsurances(params.id, currentPage).then(
+        (_insurances) => {
+          setTotalPages(_insurances.meta.page_count)
+          setCurrentPage(parseInt(_insurances.meta.current_page))
+          setCompanyInsurances(_insurances.data)
+          setLoading(false)
+        }
+      )
     }
 
     getCompanyInfo()
     getCompanyInsurances()
     // eslint-disable-next-line
-  }, [])
+  }, [currentPage])
+
+  /**
+   * ? Dependency Array for useEffect
+   * @param currentPage -> State
+   * ? This will cause each change of currentPage state
+   * ? to trigger execution of functions
+   * ? included inside useEffect() as page re-renders
+   * ? no need to use loadPage() functions anymore
+   */
 
   const hideModalAndRedirect = () => {
     hideModal()
@@ -131,39 +141,24 @@ const Company = () => {
   }
 
   /**
-   * * Load X page
-   */
-
-  const loadNewPage = async () => {
-    const _insurances = await fetchCompanyInsurances(params.id, currentPage)
-    setCompanyInsurances(_insurances.data)
-    setLoading(false)
-  }
-
-  /**
    * * Get X page
    */
 
-  const getNewPage = (e) => {
+  const setNewPage = (e) => {
     if (
       e.target.id.toString().includes('next') &&
       currentPage + 1 <= totalPages
     ) {
-      setCurrentPage(currentPage + 1)
-      setCompanyInsurances([])
-      loadNewPage()
+      setLoading(true)
+      setCurrentPage((currentPage) => currentPage + 1)
     } else if (
       e.target.id.toString().includes('prev') &&
       currentPage - 1 >= 1
     ) {
       setLoading(true)
-      setCurrentPage(currentPage - 1)
-      setCompanyInsurances([])
-      loadNewPage()
+      setCurrentPage((currentPage) => currentPage - 1)
     }
   }
-
-  // loadNewPage()
 
   /**
    * * Render
@@ -281,7 +276,7 @@ const Company = () => {
               <span
                 id="get-prev-page"
                 className="inline-block w-[0.438rem] h-[0.750rem] cursor-pointer mr-[3rem]"
-                onClick={getNewPage}
+                onClick={setNewPage}
               >
                 <svg
                   width="7"
@@ -300,7 +295,7 @@ const Company = () => {
               <span
                 id="get-next-page"
                 className="inline-block w-[0.438rem] h-[0.750rem] cursor-pointer"
-                onClick={getNewPage}
+                onClick={setNewPage}
               >
                 <svg
                   width="7"

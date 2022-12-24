@@ -36,10 +36,8 @@ export const APIProvider = ({ children }) => {
       const response = await fetch(`${APIENDPOINT}/companies/${company_id}`)
       data = await response.json()
     } catch (_error) {
-      // TODO here we prompt an error modal
       data = { error: _error }
     }
-
     return data
   }
 

@@ -28,7 +28,6 @@ const Companies = () => {
       setLoading(false)
     }
     getDataCompanies()
-    // document.querySelector('header div h1').textContent = 'Listado de Compañías'
   }, [fetchAllCompanies, setCompanies, setLoading])
 
   /**
