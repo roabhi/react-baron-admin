@@ -26,6 +26,7 @@ const Login = () => {
           <div className="card relative form px-[2.5rem]">
             <div className="flex items-center justify-center">
               <img
+                alt="baron_logo"
                 className="absolute top-[-3rem] w-[7.813rem] h-[5.188rem] mx-auto"
                 src={baronLogo}
               />

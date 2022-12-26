@@ -10,7 +10,7 @@ import { createContext, useState } from 'react'
 
 const APIContext = createContext()
 
-const APIENDPOINT = 'https://murmuring-citadel-67317.herokuapp.com/'
+const APIENDPOINT = process.env.REACT_APP_API_ENDPOINT
 
 export const APIProvider = ({ children }) => {
   /**

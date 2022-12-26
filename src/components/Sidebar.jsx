@@ -7,6 +7,7 @@ const Sidebar = () => {
       <aside className="fixed top-0 left-0 w-4/5 md:w-[17.938rem] h-screen bg-[#2A3042]">
         <div className="w-4/5 mx-auto md:w-full flex items-center justify-start md:justify-center">
           <img
+            alt="baron_logo"
             className="w-[3.813rem] h-[2.500rem] mt-[1.500rem] mx-0 md:mx-auto"
             src={baronLogo}
           />
@@ -38,11 +39,6 @@ const Sidebar = () => {
                 Compa&ntilde;&iacute;as
               </Link>
             </li>
-            {/* <li>
-              <a className="text-[#DFDFDF] hover:text-[#08A18F]" href="#">
-                Otra cosa
-              </a>
-            </li> */}
           </ul>
         </div>
       </aside>
