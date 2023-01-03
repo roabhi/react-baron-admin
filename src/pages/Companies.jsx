@@ -7,15 +7,34 @@ import CompanyItem from '../components/CompanyItem'
 import { useNavigate } from 'react-router-dom'
 
 import APIContext from '../context/APIContext'
+import AuthContext from '../context/AuthContext'
 import { useContext, useEffect } from 'react'
 
+// import AuthContext from '../context/AuthContext'
+
 const Companies = () => {
+  /**
+   * * Use AuthContext
+   */
+
+  const { isUserLogged } = useContext(AuthContext)
+
   /**
    * * Use APIContext
    */
 
   const { companies, setCompanies, loading, setLoading, fetchAllCompanies } =
     useContext(APIContext)
+
+  /**
+   * * Use Navigate
+   */
+
+  const navigate = useNavigate()
+
+  const goToCreateCompany = (e) => {
+    navigate('/create')
+  }
 
   /**
    * * Use Effect
@@ -27,18 +46,14 @@ const Companies = () => {
       setCompanies(_companies)
       setLoading(false)
     }
-    getDataCompanies()
+
+    if (isUserLogged('baron-user-logged') === true) {
+      getDataCompanies()
+    } else {
+      navigate('/')
+    }
+    // eslint-disable-next-line
   }, [fetchAllCompanies, setCompanies, setLoading])
-
-  /**
-   * * Use Navigate
-   */
-
-  const navigate = useNavigate()
-
-  const goToCreateCompany = (e) => {
-    navigate('/create')
-  }
 
   /**
    * * Render

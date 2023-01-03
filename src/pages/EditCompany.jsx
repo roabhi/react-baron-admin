@@ -4,10 +4,17 @@ import DefaultIconButton from '../components/shared/DefaultIconButton'
 import { useEffect, useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import APIContext from '../context/APIContext'
+import AuthContext from '../context/AuthContext'
 import ModalContext from '../context/ModalContext'
 import Spinner from '../components/shared/Spinner'
 
 const EditCompany = () => {
+  /**
+   * * Use AuthContext
+   */
+
+  const { isUserLogged } = useContext(AuthContext)
+
   /**
    * * Use API Context
    */
@@ -69,7 +76,11 @@ const EditCompany = () => {
         setInsurancesName(_companyInfo.csv_data.filename)
       }
     }
-    getCompanyInfo()
+    if (isUserLogged('baron-user-logged') === true) {
+      getCompanyInfo()
+    } else {
+      navigate('/')
+    }
     // eslint-disable-next-line
   }, [])
 

@@ -1,8 +1,39 @@
+import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import AuthContext from '../context/AuthContext'
+
 const Header = () => {
+  /**
+   * * Use Auth Context
+   */
+
+  const { logOutUser } = useContext(AuthContext)
+
+  /**
+   * * Use Navigate
+   */
+
+  const navigate = useNavigate()
+
+  /**
+   * * Component functions ================================================================
+   */
+
   const toggleSideBar = (e) => {
     !document.getElementById('holder').classList.contains('show-sidebar')
       ? document.getElementById('holder').classList.add('show-sidebar')
       : document.getElementById('holder').classList.remove('show-sidebar')
+  }
+
+  const openLogOut = (e) => {
+    document.getElementById('logout-panel').classList.contains('invisible')
+      ? document.getElementById('logout-panel').classList.remove('invisible')
+      : document.getElementById('logout-panel').classList.add('invisible')
+  }
+
+  const userLogOut = (e) => {
+    logOutUser()
+    navigate('/')
   }
 
   return (
@@ -37,7 +68,10 @@ const Header = () => {
             </span>
           </div>
           <div className="flex items-center justify-end w-1/2">
-            <div className="w-[0.563rem] h-[0.375rem] cursor-pointer hover:opacity-50">
+            <div
+              className="w-[0.563rem] h-[0.375rem] cursor-pointer hover:opacity-50"
+              onClick={openLogOut}
+            >
               <svg
                 width="9"
                 height="6"
@@ -51,7 +85,10 @@ const Header = () => {
                 />
               </svg>
             </div>
-            <div className="w-[1.563rem] h-[1.563rem] ml-3 cursor-pointer hover:opacity-50">
+            <div
+              className="relative w-[1.563rem] h-[1.563rem] ml-3 cursor-pointer"
+              onClick={openLogOut}
+            >
               <svg
                 width="25"
                 height="24"
@@ -64,6 +101,17 @@ const Header = () => {
                   fill="#2A3042"
                 />
               </svg>
+              <div
+                id="logout-panel"
+                className="logout-panel absolute invisible flex items-center justify-center rounded-[0.500rem] w-[5.688rem] h-[2.063rem] absolute bottom-[-2.5rem] right-[-0.1250rem] bg-[#2A3042]"
+              >
+                <span
+                  className="text-white block font-['Public_Sans] font-[600] text-[0.625rem] hover:opacity-50"
+                  onClick={userLogOut}
+                >
+                  Cerrar Sesi&oacute;n
+                </span>
+              </div>
             </div>
           </div>
         </div>

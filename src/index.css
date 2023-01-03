@@ -77,3 +77,19 @@ nav {
 .spinner-container svg {
   animation: spin 0.75s ease-in-out infinite;
 }
+
+.logout-panel {
+  box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.12);
+}
+
+.logout-panel:after {
+  position: absolute;
+  top: -0.59rem;
+  height: 0;
+  width: 0;
+  right: 10%;
+  border: 0.313rem solid transparent;
+  border-bottom-color: #2a3042;
+  content: '';
+  box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.12);
+}

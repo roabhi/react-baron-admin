@@ -1,13 +1,20 @@
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import DefaultIconButton from '../components/shared/DefaultIconButton'
+import AuthContext from '../context/AuthContext'
 import APIContext from '../context/APIContext'
 import ModalContext from '../context/ModalContext'
-import { useState, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Spinner from '../components/shared/Spinner'
 
 const CreateCompany = () => {
+  /**
+   * * Use AuthContext
+   */
+
+  const { isUserLogged } = useContext(AuthContext)
+
   /**
    * * Use API Context
    */
@@ -28,6 +35,12 @@ const CreateCompany = () => {
   const [logo, setLogo] = useState([])
   const [insurances, setInsurances] = useState([])
   const [isFormBusy, setIsFormBusy] = useState(false)
+
+  useEffect(() => {
+    if (!isUserLogged('baron-user-logged') === true) {
+      navigate('/')
+    }
+  })
 
   /**
    * * Use navigate
@@ -87,10 +100,6 @@ const CreateCompany = () => {
   }
 
   const handleFormSubmit = (e) => {
-    /**
-     * TODO form validation. All fields are necessary
-     */
-
     e.preventDefault()
 
     const formData = new FormData()
@@ -103,6 +112,10 @@ const CreateCompany = () => {
 
     insertCompany(formData)
   }
+
+  /**
+   * * Render
+   */
 
   return (
     <>

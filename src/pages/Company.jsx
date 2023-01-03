@@ -7,6 +7,7 @@ import Spinner from '../components/shared/Spinner'
 
 import APIContext from '../context/APIContext'
 import ModalContext from '../context/ModalContext'
+import AuthContext from '../context/AuthContext'
 import { useContext, useEffect, useState } from 'react'
 
 import { useParams, useNavigate } from 'react-router-dom'
@@ -26,6 +27,12 @@ const Company = () => {
    * ? scrore
    * ? updated_at (not visible)
    */
+
+  /**
+   * * Use AuthContext
+   */
+
+  const { isUserLogged } = useContext(AuthContext)
 
   /**
    * * Use Modal Context
@@ -103,10 +110,14 @@ const Company = () => {
       )
     }
 
-    getCompanyInfo()
-    getCompanyInsurances()
+    if (isUserLogged('baron-user-logged') === true) {
+      getCompanyInfo()
+      getCompanyInsurances()
+    } else {
+      navigate('/')
+    }
     // eslint-disable-next-line
-  }, [currentPage])
+  }, [currentPage, isUserLogged])
 
   /**
    * ? Dependency Array for useEffect

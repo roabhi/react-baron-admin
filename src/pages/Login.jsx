@@ -1,23 +1,86 @@
-/**
- * ! useNavigate until we create actual login validaton
- * ! right now there is NONE
- */
+import { useContext, useRef, useEffect } from 'react'
+import AuthContext from '../context/AuthContext'
+import ModalContext from '../context/ModalContext'
 import { useNavigate } from 'react-router-dom'
 
 import baronLogo from '../assets/Logo.png'
 
 const Login = () => {
+  /**
+   * * Use Auth Context
+   */
+
+  const { isUserLogged, checkCredentials } = useContext(AuthContext)
+
+  /**
+   * * Use Modal Context
+   */
+
+  const { showModal, hideModal, paintModalContent } = useContext(ModalContext)
+
+  /**
+   * * Use State
+   */
+
+  const username = useRef()
+  const password = useRef()
+
+  /**
+   * * Use Navigate
+   */
+
   const navigate = useNavigate()
 
-  const onLoginSubmit = (e) => {
-    e.preventDefault()
+  /**
+   * * Use Effect
+   */
 
-    /**
-     * TODO Validation Will Go Here
-     */
+  useEffect(() => {
+    if (isUserLogged('baron-user-logged') === true) {
+      navigate('/companies')
+    }
+    // eslint-disable-next-line
+  }, [])
 
-    navigate('/companies')
+  /**
+   * * Component functions ================================================================
+   */
+
+  const acceptError = () => {
+    hideModal()
+    // navigate('/')
   }
+
+  const onLoginSubmit = (e) => {
+    if (
+      username.current.value.length < 1 ||
+      password.current.value.length < 1
+    ) {
+      /**
+       * ? Empty fields are handled by native required HTML API method
+       */
+    } else {
+      e.preventDefault()
+      if (checkCredentials(username.current.value, password.current.value)) {
+        // setUserLogged(true)
+
+        navigate('/companies')
+      } else {
+        showModal()
+        paintModalContent(
+          'error',
+          'Error',
+          'Las credenciales no son correctas',
+          acceptError,
+          false
+        )
+      }
+    }
+  }
+
+  /**
+   * * Render
+   */
 
   return (
     <>
@@ -34,7 +97,7 @@ const Login = () => {
             <h1 className="mt-[3.125rem] font-['Public_Sans'] font-[700] text-[1.625rem]">
               LogIn
             </h1>
-            <form className="mt-[2rem] px-1" action="" method="get">
+            <form className="mt-[2rem] px-1">
               <label
                 className="font-['Public_Sans'] text-[0.813rem]"
                 htmlFor="GET-user"
@@ -47,6 +110,8 @@ const Login = () => {
                 name="name"
                 placeholder="Usuario"
                 autoComplete="username"
+                required
+                ref={username}
                 className="placeholder:text-[#DFDFDF] placeholder:font-['Work_Sans'] placeholder:font-[600] placeholder:text-[0.813rem] block bg-[#F0F0F0] w-full border border-[#DFDFDF] rounded-[0.500rem] py-3 px-3 mt-[0.813rem] focus:outline-none focus:ring-1 ring-inset ring-[#7C8691] font-['Work_Sans'] text-[0.813rem] text-[#7C8691] w-80"
               />
               <label
@@ -57,6 +122,8 @@ const Login = () => {
               </label>
               <input
                 id="GET-password"
+                required
+                ref={password}
                 type="password"
                 name="Password"
                 autoComplete="current-password"
