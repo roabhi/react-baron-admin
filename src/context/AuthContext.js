@@ -7,8 +7,8 @@ export const AuthProvider = ({ children }) => {
    * * Auth data
    */
 
-  const username = 'Miguel',
-    password = '1234'
+  const username = 'QWRtX1JDUw==',
+    password = 'QmFyKm5fMjAyMw=='
 
   /**
    * * Auth functions
@@ -31,7 +31,10 @@ export const AuthProvider = ({ children }) => {
   }
 
   const checkCredentials = (_username, _password) => {
-    if (_username === username && _password === password) {
+    if (
+      _username === window.atob(username) &&
+      _password === window.atob(password)
+    ) {
       logInUser()
       return true
     } else {
