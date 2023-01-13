@@ -20,28 +20,31 @@ import EditCompany from './pages/EditCompany'
 
 import { APIProvider } from './context/APIContext'
 import { ModalProvider } from './context/ModalContext'
+import { AuthProvider } from './context/AuthContext'
 
 const App = () => {
   return (
     <>
-      <ModalProvider>
-        <APIProvider>
-          <Router>
-            <div
-              id="holder"
-              className="holder overflow-x-hidden container md:mx-auto"
-            >
-              <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/companies" element={<Companies />} />
-                <Route path="/company/:id" element={<Company />} />
-                <Route path="/create" element={<CreateCompany />} />
-                <Route path="/update/:id" element={<EditCompany />} />
-              </Routes>
-            </div>
-          </Router>
-        </APIProvider>
-      </ModalProvider>
+      <AuthProvider>
+        <ModalProvider>
+          <APIProvider>
+            <Router>
+              <div
+                id="holder"
+                className="holder overflow-x-hidden container md:mx-auto"
+              >
+                <Routes>
+                  <Route path="/" element={<Login />} />
+                  <Route path="/companies" element={<Companies />} />
+                  <Route path="/company/:id" element={<Company />} />
+                  <Route path="/create" element={<CreateCompany />} />
+                  <Route path="/update/:id" element={<EditCompany />} />
+                </Routes>
+              </div>
+            </Router>
+          </APIProvider>
+        </ModalProvider>
+      </AuthProvider>
       {/* <div id="grid"></div> */}
     </>
   )
