@@ -82,7 +82,7 @@ nav {
   box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.12);
 }
 
-.logout-panel:after {
+/* .logout-panel:after {
   position: absolute;
   top: -0.59rem;
   height: 0;
@@ -92,4 +92,4 @@ nav {
   border-bottom-color: #2a3042;
   content: '';
   box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.12);
-}
+} */

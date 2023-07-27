@@ -1,20 +1,6 @@
-import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import AuthContext from '../context/AuthContext'
+import HeaderPopUp from './HeaderPopUp'
 
 const Header = () => {
-  /**
-   * * Use Auth Context
-   */
-
-  const { logOutUser } = useContext(AuthContext)
-
-  /**
-   * * Use Navigate
-   */
-
-  const navigate = useNavigate()
-
   /**
    * * Component functions ================================================================
    */
@@ -29,11 +15,6 @@ const Header = () => {
     document.getElementById('logout-panel').classList.contains('invisible')
       ? document.getElementById('logout-panel').classList.remove('invisible')
       : document.getElementById('logout-panel').classList.add('invisible')
-  }
-
-  const userLogOut = (e) => {
-    logOutUser()
-    navigate('/')
   }
 
   return (
@@ -101,17 +82,7 @@ const Header = () => {
                   fill="#2A3042"
                 />
               </svg>
-              <div
-                id="logout-panel"
-                className="logout-panel absolute invisible flex items-center justify-center rounded-[0.500rem] w-[5.688rem] h-[2.063rem] absolute bottom-[-2.5rem] right-[-0.1250rem] bg-[#2A3042]"
-              >
-                <span
-                  className="text-white block font-['Public_Sans] font-[600] text-[0.625rem] hover:opacity-50"
-                  onClick={userLogOut}
-                >
-                  Cerrar Sesi&oacute;n
-                </span>
-              </div>
+              <HeaderPopUp />
             </div>
           </div>
         </div>
