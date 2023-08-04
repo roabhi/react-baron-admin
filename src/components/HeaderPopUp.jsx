@@ -1,13 +1,27 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import AuthContext from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import APIContext from '../context/APIContext'
+import { CSVLink } from 'react-csv'
 
 const HeaderPopUp = () => {
+  /**
+   * * Use API Context
+   */
+
+  const { fetchInsurancesReport } = useContext(APIContext)
+
   /**
    * * Use Auth Context
    */
 
   const { logOutUser } = useContext(AuthContext)
+
+  /**
+   * * Use State
+   */
+
+  const [reportData, setReportData] = useState([])
 
   /**
    * * Use Navigate
@@ -20,14 +34,92 @@ const HeaderPopUp = () => {
     navigate('/')
   }
 
+  // let reportData = []
+
+  const setFileTime = (format) => {
+    const date = new Date()
+
+    const map = {
+      mm: date.getMonth() + 1,
+      dd: date.getDate(),
+      yy: date.getFullYear().toString().slice(-2),
+      yyyy: date.getFullYear(),
+    }
+
+    return format.replace(/mm|dd|yy|yyy/gi, (matched) => map[matched])
+  }
+
+  const createCsvFileName = () =>
+    `Baron_Informe_Consultas_${setFileTime('dd/mm/yy')}.csv`
+
+  const headers = [
+    { label: 'Nombre', key: 'name' },
+    { label: 'DNI', key: 'dni' },
+    { label: 'Telf', key: 'phone' },
+    { label: 'Correo', key: 'email' },
+    { label: 'Ámbito', key: 'ambit' },
+    { label: 'Cantidad Asegurada', key: 'amount' },
+    { label: 'Categoria', key: 'category' },
+    { label: 'Acepta Publicidad', key: 'consent' },
+    {
+      label: 'Fecha',
+      key: 'created_at',
+    },
+  ]
+
+  const getReport = async () => {
+    await fetchInsurancesReport().then((report) => {
+      // report.forEach((item) => {
+      //   reportData.push({
+      //     name: item.name,
+      //     dni: item.dni,
+      //     phone: item.phone,
+      //     email: item.email,
+      //     ambit: item.ambit,
+      //     amount: item.amount,
+      //     created_at: item.created_at,
+      //   })
+      // })
+
+      // reportData = report
+
+      console.log(report)
+
+      setReportData(report)
+
+      setTimeout(() => {
+        document.querySelector('#downloadCSV').click()
+      }, 1000)
+    })
+  }
+
+  // ${created_at.substring(
+  //   0,
+  //   created_at.indexOf('T' - 1)
+  // )} a las ${created_at(
+  //   substring(created_at.indexOf('T')),
+  //   created_at.indexOf('.' - 1)
+  // )}
+
   return (
     <div
       id="logout-panel"
       className="logout-panel absolute invisible flex flex-col items-start justify-around rounded-[0.500rem] w-[11.500rem] h-[5.500rem] bottom-[-6rem] right-[-0.1250rem] bg-[#2A3042]"
     >
+      <CSVLink
+        data={reportData}
+        headers={headers}
+        separator={','}
+        filename={createCsvFileName()}
+        target="_blank"
+      >
+        <span id="downloadCSV" className="hidden">
+          Download
+        </span>
+      </CSVLink>
       <div
         className="flex flex-row justify-start items-center px-[1rem] text-white font-['Poppins'] font-[600] text-[0.625rem] w-full h-[50%] hover:opacity-50"
-        onClick={() => console.log('download informe')}
+        onClick={() => getReport()}
       >
         <svg
           width="11"
