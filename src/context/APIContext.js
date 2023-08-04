@@ -123,6 +123,22 @@ export const APIProvider = ({ children }) => {
     return message
   }
 
+  /**
+   * * GET INFORMES function
+   */
+
+  const fetchInsurancesReport = async () => {
+    let data
+
+    try {
+      const response = await fetch(`${APIENDPOINT}/report_requests`)
+      data = await response.json()
+    } catch (_error) {
+      data = { error: _error }
+    }
+    return data
+  }
+
   return (
     <APIContext.Provider
       value={{
@@ -138,6 +154,7 @@ export const APIProvider = ({ children }) => {
         createCompany: createCompany, // ? This is a function
         deleteCompany: deleteCompany, // ? This is a function
         editCompany: editCompany, //? This is a function
+        fetchInsurancesReport: fetchInsurancesReport, //? This is a function
       }}
     >
       {children}
