@@ -36,24 +36,23 @@ const Companies = () => {
     navigate('/create')
   }
 
+  const getDataCompanies = async () => {
+    const _companies = await fetchAllCompanies()
+    setCompanies(_companies)
+    setLoading(false)
+  }
   /**
    * * Use Effect
    */
 
   useEffect(() => {
-    const getDataCompanies = async () => {
-      const _companies = await fetchAllCompanies()
-      setCompanies(_companies)
-      setLoading(false)
-    }
-
     if (isUserLogged('baron-user-logged') === true) {
       getDataCompanies()
     } else {
       navigate('/')
     }
     // eslint-disable-next-line
-  }, [fetchAllCompanies, setCompanies, setLoading])
+  }, [])
 
   /**
    * * Render

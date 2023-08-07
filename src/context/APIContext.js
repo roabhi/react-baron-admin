@@ -42,14 +42,18 @@ export const APIProvider = ({ children }) => {
   }
 
   const fetchAllCompanies = async () => {
+    let data
+
     try {
       const response = await fetch(`${APIENDPOINT}/companies`)
-      const data = await response.json()
+      data = await response.json()
       return data
     } catch (error) {
       // TODO here we prompt an error modal
-      console.log(error)
+      data = { error: error }
     }
+
+    return data
   }
 
   const fetchCompanyInsurances = async (company_id, pagination) => {
