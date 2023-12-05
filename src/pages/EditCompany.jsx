@@ -113,8 +113,6 @@ const EditCompany = () => {
 
     setIsFormBusy(false)
 
-    // console.log(msg)
-
     showModal()
 
     if (msg?.error) {

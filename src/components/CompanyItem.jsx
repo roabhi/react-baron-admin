@@ -27,42 +27,24 @@ const CompanyItem = ({ id, company_name, picture_url }) => {
    */
 
   const hideCurrentModal = () => {
-    console.log('hide modal')
     hideModal()
   }
 
   const removeCompanyFromDB = async (_companyId) => {
     // TODO el DELETE desde la API no devuelve nada
     const msg = await deleteCompany(_companyId)
-    console.log(msg)
+    console.log(msg.status)
     hideModal()
   }
 
   const selectAction = (e) => {
     if (e.target.id.toString().includes('confirm')) {
-      paintModalContent(
-        'info', //type
-        'info', //title of modal
-        'Un momento por favor', //text of modal
-        hideCurrentModal, // function to modal
-        false //false will paint just a single button for modal
-      )
       removeCompanyFromDB(document.querySelector('[data-delete="true"]').id)
+      navigate('/')
     } else {
       hideCurrentModal()
     }
   }
-
-  // const onEditCompanyClick = () => {
-  //   showModal()
-  //   paintModalContent(
-  //     'info', //type
-  //     'info', //title of modal
-  //     'You are about to edit this company', //text of modal
-  //     hideCurrentModal, // function to modal
-  //     false //false will paint just a single button for modal
-  //   )
-  // }
 
   const onDeleteCompanyClick = (e) => {
     /**
