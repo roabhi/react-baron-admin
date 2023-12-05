@@ -35,12 +35,12 @@ const CompanyItem = ({ id, company_name, picture_url }) => {
     const msg = await deleteCompany(_companyId)
     console.log(msg.status)
     hideModal()
+    navigate('/')
   }
 
   const selectAction = (e) => {
     if (e.target.id.toString().includes('confirm')) {
       removeCompanyFromDB(document.querySelector('[data-delete="true"]').id)
-      navigate('/')
     } else {
       hideCurrentModal()
     }
